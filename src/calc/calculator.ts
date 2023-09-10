@@ -32,7 +32,18 @@ function dbgPlanOutput(plan: PlanEntry[]): string {
   return plan.map((p) => `${p.plantAt}-${p.crop.name}`).join(",");
 }
 
+interface Plan {
+  profit: number;
+  plan: PlanEntry[];
+}
+
+const bestPlans = new Map<number, Plan>();
+
 export function buildPlan(crops: Crop[], startDate: StardewDate): PlanEntry[] {
+  const savedPlan = bestPlans.get(startDate.dayOfYear);
+  if (savedPlan) return savedPlan.plan;
+
+  //console.log(`${startDate}: checking ...`);
   // for each crop that we can plant on startDate
   const potentialCropsToPlant = crops.flatMap((crop) => {
     const plantable = canIPlant(crop, startDate);
@@ -69,10 +80,12 @@ export function buildPlan(crops: Crop[], startDate: StardewDate): PlanEntry[] {
     };
   });
 
-  const bestPlan = _.maxBy(possiblePlans, "profit");
-  if (bestPlan) {
-    return bestPlan.plan;
-  }
-
-  return [];
+  const bestPlan = _.maxBy(possiblePlans, "profit") ?? { plan: [], profit: 0 };
+  console.log(
+    `${startDate}: profit ${bestPlan.profit} plan ${dbgPlanOutput(
+      bestPlan.plan
+    )}`
+  );
+  bestPlans.set(startDate.dayOfYear, bestPlan);
+  return bestPlan.plan;
 }

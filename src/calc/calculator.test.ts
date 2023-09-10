@@ -2,11 +2,13 @@ import { test, it, expect, describe } from "vitest";
 import { PlanEntry, buildPlan, canIPlant, profitPerDay } from "./calculator";
 import { Crop } from "./model";
 import { FALL, SPRING, SUMMER, StardewDate, WINTER, svDate } from "./calendar";
+import { crops } from "./data";
 
 it("should be able to go 😈😈😈😈😈 mode", () => {
   const devious: string = "🥹😀🫠😧😵";
   expect(devious).toBe("🥹😀🫠😧😵");
 });
+
 it("should calculate basic profit per day", () => {
   const testCrop: Crop = {
     name: "test crop",
@@ -105,6 +107,7 @@ describe("optimal sequence calculator", () => {
       },
     ]);
   });
+
   it("should work in a very simple case with WINTER crops", () => {
     const testCrop1: Crop = {
       name: "winter crop",
@@ -131,6 +134,7 @@ describe("optimal sequence calculator", () => {
       },
     ]);
   });
+
   it("should be able to find the best crop sequence", () => {
     const testCrop1: Crop = {
       name: "spring crop",
@@ -217,6 +221,12 @@ describe("optimal sequence calculator", () => {
       },
     ]);
   });
+});
+
+it.skip("should do something amazing with the real crops", () => {
+  const result = buildPlan(crops, svDate(SPRING, 1));
+
+  expect(result).toMatchInlineSnapshot();
 });
 
 it.todo("should be able to get properties of crops");
