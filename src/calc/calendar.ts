@@ -1,22 +1,17 @@
 import assert from "node:assert";
 
-interface Season {
+export interface Season {
   name: string;
   offsetDays: number;
+  idx: number;
 }
-export const Seasons = {
-  SPRING: { name: "Spring", offsetDays: 0, idx: 0 },
-  SUMMER: { name: "Summer", offsetDays: 28, idx: 1 },
-  FALL: { name: "Fall", offsetDays: 56, idx: 2 },
-  WINTER: { name: "Winter", offsetDays: 84, idx: 3 },
-} as const;
+export const SPRING: Season = { name: "Spring", offsetDays: 0, idx: 0 };
+export const SUMMER: Season = { name: "Summer", offsetDays: 28, idx: 1 };
+export const FALL: Season = { name: "Fall", offsetDays: 56, idx: 2 };
+export const AUTUMN = FALL;
+export const WINTER: Season = { name: "Winter", offsetDays: 84, idx: 3 };
 
-const AllSeasons = [
-  Seasons.SPRING,
-  Seasons.SUMMER,
-  Seasons.FALL,
-  Seasons.WINTER,
-];
+const AllSeasons = [SPRING, SUMMER, FALL, WINTER];
 
 export class StardewDate {
   public readonly dayOfYear: number;
@@ -33,7 +28,7 @@ export class StardewDate {
 
   addDays(d: number): StardewDate | undefined {
     const newDayOfYear = this.dayOfYear + d;
-    const newSeasonIdx = Math.floor(newDayOfYear / 28);
+    const newSeasonIdx = Math.floor((newDayOfYear - 1) / 28);
     const newSeason = AllSeasons.find((s) => s.idx === newSeasonIdx);
 
     if (!newSeason) return undefined;
@@ -42,32 +37,22 @@ export class StardewDate {
 
     return new StardewDate(newSeason, newDayOfMonth);
   }
+  nextSeason(): StardewDate | undefined {
+    const newSeasonIdx = this.season.idx + 1;
+    const newSeason = AllSeasons.find((s) => s.idx === newSeasonIdx);
+    if (!newSeason) return undefined;
+    return svDate(newSeason, 1);
+  }
 
   toString(): string {
     return `${this.season.name} ${this.dayOfMonth}`;
   }
-}
 
-/*
-type StardewDate = {
-  season: Season;
-  day: number ;
-};
-
-export function renderDate(dt: StardewDate): string {
-  return `${dt.season} ${dt.day}`;
-}
-
-export function addDays(
-  dt: StardewDate,
-  days: number
-): StardewDate | undefined {
-  assert(days >= 0);
-
-  const newDate = {
-    ..dt,
-    day: dt.day + 
+  toJSON(): any {
+    return this.toString();
   }
-  return dt;
 }
-*/
+
+export function svDate(season: Season, day: number): StardewDate {
+  return new StardewDate(season, day);
+}
