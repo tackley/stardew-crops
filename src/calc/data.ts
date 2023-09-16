@@ -1,5 +1,5 @@
 import { SPRING, SUMMER, FALL, WINTER } from "./calendar";
-import { Crop } from "./model";
+import { Crop, Source } from "./model";
 
 export const crops: Crop[] = [
   {
@@ -14,6 +14,7 @@ export const crops: Crop[] = [
       maxHarvestIncreasePerFarmingLevel: 10,
       chanceForExtraCrops: 0.1,
     },
+    sources: [],
   },
   {
     name: "Amaranth Seeds",
@@ -21,6 +22,7 @@ export const crops: Crop[] = [
     seasons: [FALL],
     seedPrice: 35,
     sellPrice: 150,
+    sources: [],
   },
   {
     name: "Grape Starter",
@@ -28,6 +30,7 @@ export const crops: Crop[] = [
     seasons: [FALL],
     seedPrice: 30,
     sellPrice: 80,
+    sources: [],
   },
   {
     name: "Hops Starter",
@@ -35,6 +38,7 @@ export const crops: Crop[] = [
     seasons: [SUMMER],
     seedPrice: 30,
     sellPrice: 25,
+    sources: [],
   },
   {
     name: "Rare Seed",
@@ -42,6 +46,7 @@ export const crops: Crop[] = [
     seasons: [FALL],
     seedPrice: 200,
     sellPrice: 3000,
+    sources: [],
   },
   {
     name: "Fairy Seeds",
@@ -49,6 +54,7 @@ export const crops: Crop[] = [
     seasons: [FALL],
     seedPrice: 100,
     sellPrice: 290,
+    sources: [],
   },
   {
     name: "Tulip Bulb",
@@ -56,6 +62,7 @@ export const crops: Crop[] = [
     seasons: [SPRING],
     seedPrice: 10,
     sellPrice: 30,
+    sources: [],
   },
   {
     name: "Jazz Seeds",
@@ -63,6 +70,7 @@ export const crops: Crop[] = [
     seasons: [SPRING],
     seedPrice: 15,
     sellPrice: 50,
+    sources: [],
   },
   {
     name: "Sunflower Seeds",
@@ -70,6 +78,7 @@ export const crops: Crop[] = [
     seasons: [SUMMER, FALL],
     seedPrice: 20,
     sellPrice: 80,
+    sources: [],
   },
   {
     name: "Coffee Bean",
@@ -83,6 +92,7 @@ export const crops: Crop[] = [
       maxHarvestIncreasePerFarmingLevel: 0,
       chanceForExtraCrops: 0.02,
     },
+    sources: [],
   },
   {
     name: "Poppy Seeds",
@@ -90,6 +100,7 @@ export const crops: Crop[] = [
     seasons: [SUMMER],
     seedPrice: 50,
     sellPrice: 140,
+    sources: [],
   },
   {
     name: "Spangle Seeds",
@@ -97,6 +108,7 @@ export const crops: Crop[] = [
     seasons: [SUMMER],
     seedPrice: 25,
     sellPrice: 90,
+    sources: [],
   },
   {
     name: "Parsnip Seeds",
@@ -104,6 +116,7 @@ export const crops: Crop[] = [
     seasons: [SPRING],
     seedPrice: 10,
     sellPrice: 35,
+    sources: [Source.JOJOMART, Source.PIERRE],
   },
   {
     name: "Bean Starter",
@@ -111,6 +124,7 @@ export const crops: Crop[] = [
     seasons: [SPRING],
     seedPrice: 30,
     sellPrice: 40,
+    sources: [Source.JOJOMART, Source.PIERRE],
   },
   {
     name: "Cauliflower Seeds",
@@ -118,6 +132,7 @@ export const crops: Crop[] = [
     seasons: [SPRING],
     seedPrice: 40,
     sellPrice: 175,
+    sources: [Source.JOJOMART, Source.PIERRE],
   },
   {
     name: "Potato Seeds",
@@ -131,6 +146,7 @@ export const crops: Crop[] = [
       maxHarvestIncreasePerFarmingLevel: 0,
       chanceForExtraCrops: 0.2,
     },
+    sources: [Source.JOJOMART, Source.PIERRE],
   },
   {
     name: "Garlic Seeds",
@@ -138,6 +154,7 @@ export const crops: Crop[] = [
     seasons: [SPRING],
     seedPrice: 20,
     sellPrice: 60,
+    sources: [Source.JOJOMART, Source.PIERRE],
   },
   {
     name: "Kale Seeds",
@@ -145,6 +162,7 @@ export const crops: Crop[] = [
     seasons: [SPRING],
     seedPrice: 35,
     sellPrice: 110,
+    sources: [Source.JOJOMART, Source.PIERRE],
   },
   {
     name: "Rhubarb Seeds",
@@ -152,6 +170,7 @@ export const crops: Crop[] = [
     seasons: [SPRING],
     seedPrice: 50,
     sellPrice: 220,
+    sources: [Source.JOJOMART, Source.PIERRE],
   },
   {
     name: "Melon Seeds",
@@ -159,6 +178,7 @@ export const crops: Crop[] = [
     seasons: [SUMMER],
     seedPrice: 40,
     sellPrice: 250,
+    sources: [Source.JOJOMART, Source.PIERRE],
   },
   {
     name: "Tomato Seeds",
@@ -172,6 +192,7 @@ export const crops: Crop[] = [
       maxHarvestIncreasePerFarmingLevel: 0,
       chanceForExtraCrops: 0.05,
     },
+    sources: [Source.JOJOMART, Source.PIERRE],
   },
   {
     name: "Blueberry Seeds",
@@ -185,6 +206,7 @@ export const crops: Crop[] = [
       maxHarvestIncreasePerFarmingLevel: 0,
       chanceForExtraCrops: 0.02,
     },
+    sources: [Source.PIERRE],
   },
   {
     name: "Pepper Seeds",
@@ -198,6 +220,7 @@ export const crops: Crop[] = [
       maxHarvestIncreasePerFarmingLevel: 0,
       chanceForExtraCrops: 0.03,
     },
+    sources: [Source.JOJOMART, Source.PIERRE],
   },
   {
     name: "Wheat Seeds",
@@ -205,6 +228,7 @@ export const crops: Crop[] = [
     seasons: [SUMMER, FALL],
     seedPrice: 5,
     sellPrice: 25,
+    sources: [Source.JOJOMART, Source.PIERRE],
   },
   {
     name: "Radish Seeds",
@@ -212,6 +236,7 @@ export const crops: Crop[] = [
     seasons: [SUMMER],
     seedPrice: 20,
     sellPrice: 90,
+    sources: [Source.JOJOMART, Source.PIERRE],
   },
   {
     name: "Red Cabbage Seeds",
@@ -219,6 +244,7 @@ export const crops: Crop[] = [
     seasons: [SUMMER],
     seedPrice: 50,
     sellPrice: 260,
+    sources: [Source.JOJOMART, Source.PIERRE],
   },
   {
     name: "Starfruit Seeds",
@@ -226,6 +252,7 @@ export const crops: Crop[] = [
     seasons: [SUMMER],
     seedPrice: 200,
     sellPrice: 750,
+    sources: [],
   },
   {
     name: "Corn Seeds",
@@ -233,6 +260,7 @@ export const crops: Crop[] = [
     seasons: [SUMMER, FALL],
     seedPrice: 75,
     sellPrice: 50,
+    sources: [Source.JOJOMART, Source.PIERRE],
   },
   {
     name: "Eggplant Seeds",
@@ -246,6 +274,7 @@ export const crops: Crop[] = [
       maxHarvestIncreasePerFarmingLevel: 0,
       chanceForExtraCrops: 0.002,
     },
+    sources: [Source.JOJOMART, Source.PIERRE],
   },
   {
     name: "Artichoke Seeds",
@@ -253,6 +282,7 @@ export const crops: Crop[] = [
     seasons: [FALL],
     seedPrice: 15,
     sellPrice: 160,
+    sources: [Source.JOJOMART, Source.PIERRE],
   },
   {
     name: "Pumpkin Seeds",
@@ -260,6 +290,7 @@ export const crops: Crop[] = [
     seasons: [FALL],
     seedPrice: 50,
     sellPrice: 320,
+    sources: [Source.JOJOMART, Source.PIERRE],
   },
   {
     name: "Bok Choy Seeds",
@@ -267,6 +298,7 @@ export const crops: Crop[] = [
     seasons: [FALL],
     seedPrice: 25,
     sellPrice: 80,
+    sources: [Source.JOJOMART, Source.PIERRE],
   },
   {
     name: "Yam Seeds",
@@ -274,6 +306,7 @@ export const crops: Crop[] = [
     seasons: [FALL],
     seedPrice: 30,
     sellPrice: 160,
+    sources: [Source.JOJOMART, Source.PIERRE],
   },
   {
     name: "Cranberry Seeds",
@@ -287,6 +320,7 @@ export const crops: Crop[] = [
       maxHarvestIncreasePerFarmingLevel: 0,
       chanceForExtraCrops: 0.1,
     },
+    sources: [Source.JOJOMART, Source.PIERRE],
   },
   {
     name: "Beet Seeds",
@@ -294,6 +328,7 @@ export const crops: Crop[] = [
     seasons: [FALL],
     seedPrice: 10,
     sellPrice: 100,
+    sources: [Source.JOJOMART, Source.PIERRE],
   },
   {
     name: "Spring Seeds",
@@ -301,6 +336,7 @@ export const crops: Crop[] = [
     seasons: [SPRING],
     seedPrice: 35,
     sellPrice: 50,
+    sources: [],
   },
   {
     name: "Summer Seeds",
@@ -308,6 +344,7 @@ export const crops: Crop[] = [
     seasons: [SUMMER],
     seedPrice: 55,
     sellPrice: 80,
+    sources: [],
   },
   {
     name: "Fall Seeds",
@@ -315,6 +352,7 @@ export const crops: Crop[] = [
     seasons: [FALL],
     seedPrice: 45,
     sellPrice: 40,
+    sources: [],
   },
   {
     name: "Winter Seeds",
@@ -322,6 +360,7 @@ export const crops: Crop[] = [
     seasons: [WINTER],
     seedPrice: 30,
     sellPrice: 70,
+    sources: [],
   },
   {
     name: "Ancient Seeds",
@@ -329,6 +368,7 @@ export const crops: Crop[] = [
     seasons: [SPRING, SUMMER, FALL],
     seedPrice: 30,
     sellPrice: 550,
+    sources: [],
   },
   {
     name: "Strawberry Seeds",
@@ -342,6 +382,7 @@ export const crops: Crop[] = [
       maxHarvestIncreasePerFarmingLevel: 0,
       chanceForExtraCrops: 0.02,
     },
+    sources: [],
   },
   {
     name: "Cactus Seeds",
@@ -349,6 +390,7 @@ export const crops: Crop[] = [
     seasons: [SPRING, SUMMER, FALL, WINTER],
     seedPrice: 0,
     sellPrice: 75,
+    sources: [],
   },
   {
     name: "Taro Tuber",
@@ -356,6 +398,7 @@ export const crops: Crop[] = [
     seasons: [SUMMER],
     seedPrice: 20,
     sellPrice: 100,
+    sources: [],
   },
   {
     name: "Pineapple Seeds",
@@ -363,6 +406,7 @@ export const crops: Crop[] = [
     seasons: [SUMMER],
     seedPrice: 240,
     sellPrice: 300,
+    sources: [],
   },
   {
     name: "Fiber Seeds",
@@ -376,6 +420,7 @@ export const crops: Crop[] = [
       maxHarvestIncreasePerFarmingLevel: 0,
       chanceForExtraCrops: 0.01,
     },
+    sources: [],
   },
   {
     name: "Qi Bean",
@@ -383,5 +428,6 @@ export const crops: Crop[] = [
     seasons: [SPRING, SUMMER, FALL, WINTER],
     seedPrice: 1,
     sellPrice: 1,
+    sources: [],
   },
 ];

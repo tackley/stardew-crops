@@ -37,13 +37,21 @@ interface Plan {
   plan: PlanEntry[];
 }
 
-const bestPlans = new Map<number, Plan>();
+type BestPlanCache = Map<number, Plan>;
 
 export function buildPlan(crops: Crop[], startDate: StardewDate): PlanEntry[] {
+  const bestPlans = new Map<number, Plan>();
+  return buildPlanWithCache(bestPlans, crops, startDate);
+}
+
+function buildPlanWithCache(
+  bestPlans: BestPlanCache,
+  crops: Crop[],
+  startDate: StardewDate
+): PlanEntry[] {
   const savedPlan = bestPlans.get(startDate.dayOfYear);
   if (savedPlan) return savedPlan.plan;
 
-  //console.log(`${startDate}: checking ...`);
   // for each crop that we can plant on startDate
   const potentialCropsToPlant = crops.flatMap((crop) => {
     const plantable = canIPlant(crop, startDate);
@@ -55,7 +63,7 @@ export function buildPlan(crops: Crop[], startDate: StardewDate): PlanEntry[] {
   if (potentialCropsToPlant.length === 0) {
     const nextSeason = startDate.nextSeason();
     if (nextSeason) {
-      return buildPlan(crops, nextSeason);
+      return buildPlanWithCache(bestPlans, crops, nextSeason);
     } else {
       return [];
     }
@@ -71,7 +79,7 @@ export function buildPlan(crops: Crop[], startDate: StardewDate): PlanEntry[] {
     };
     const plan = [
       thisCropPlanEntry,
-      ...buildPlan(crops, p.plantable.plotFreeAt),
+      ...buildPlanWithCache(bestPlans, crops, p.plantable.plotFreeAt),
     ];
 
     return {

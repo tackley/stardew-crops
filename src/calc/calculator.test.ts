@@ -1,6 +1,6 @@
 import { test, it, expect, describe } from "vitest";
 import { PlanEntry, buildPlan, canIPlant, profitPerDay } from "./calculator";
-import { Crop } from "./model";
+import { Crop, Source } from "./model";
 import { FALL, SPRING, SUMMER, StardewDate, WINTER, svDate } from "./calendar";
 import { crops } from "./data";
 
@@ -16,6 +16,7 @@ it("should calculate basic profit per day", () => {
     maturityTimeDays: 1,
     sellPrice: 20,
     seasons: [SPRING],
+    sources: [Source.JOJOMART],
   };
 
   expect(profitPerDay(testCrop)).toBe(10);
@@ -50,6 +51,7 @@ describe("can I plant it?", () => {
       maturityTimeDays: 1,
       sellPrice: 20,
       seasons: [SPRING, SUMMER],
+      sources: [Source.JOJOMART],
     };
     expect(canIPlant(testCrop, new StardewDate(FALL, 1))).toBeUndefined();
   });
@@ -61,6 +63,7 @@ describe("can I plant it?", () => {
       maturityTimeDays: 4,
       sellPrice: 20,
       seasons: [SPRING, SUMMER],
+      sources: [Source.JOJOMART],
     };
     expect(canIPlant(testCrop, new StardewDate(SPRING, 1))).toMatchObject({
       profit: 10,
@@ -75,6 +78,7 @@ describe("can I plant it?", () => {
       maturityTimeDays: 4,
       sellPrice: 20,
       seasons: [SPRING, SUMMER],
+      sources: [Source.JOJOMART],
     };
     expect(canIPlant(testCrop, new StardewDate(SUMMER, 27))).toBeUndefined();
   });
@@ -88,6 +92,7 @@ describe("optimal sequence calculator", () => {
       maturityTimeDays: 13,
       sellPrice: 180,
       seasons: [SPRING],
+      sources: [Source.JOJOMART],
     };
 
     const plan = buildPlan([testCrop1], svDate(SPRING, 1));
@@ -115,6 +120,7 @@ describe("optimal sequence calculator", () => {
       maturityTimeDays: 10,
       sellPrice: 150,
       seasons: [WINTER],
+      sources: [Source.JOJOMART],
     };
 
     const plan = buildPlan([testCrop1], svDate(SPRING, 1));
@@ -142,6 +148,7 @@ describe("optimal sequence calculator", () => {
       maturityTimeDays: 13,
       sellPrice: 180,
       seasons: [SPRING],
+      sources: [Source.JOJOMART],
     };
     const testCrop2: Crop = {
       name: "summer crop",
@@ -149,6 +156,7 @@ describe("optimal sequence calculator", () => {
       maturityTimeDays: 4,
       sellPrice: 50,
       seasons: [SUMMER],
+      sources: [Source.JOJOMART],
     };
     const testCrop3: Crop = {
       name: "fall crop",
@@ -156,6 +164,7 @@ describe("optimal sequence calculator", () => {
       maturityTimeDays: 13,
       sellPrice: 210,
       seasons: [FALL],
+      sources: [Source.JOJOMART],
     };
     const testCrop4: Crop = {
       name: "cross-season crop",
@@ -163,6 +172,7 @@ describe("optimal sequence calculator", () => {
       maturityTimeDays: 7,
       sellPrice: 100,
       seasons: [SPRING, SUMMER],
+      sources: [Source.JOJOMART],
     };
 
     const plan = buildPlan(
