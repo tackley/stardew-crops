@@ -1,7 +1,7 @@
 "use client";
 import { SPRING, StardewDate } from "@/calc/calendar";
 import { useState } from "react";
-import { CropPlanParams, MakeCropPlan } from "./MakeCropPlan";
+import { CropPlanParams, CropPlan } from "./CropPlan";
 import { crops } from "@/calc/data";
 import { Source } from "@/calc/model";
 
@@ -31,7 +31,7 @@ export default function Home() {
       </div>
 
       <div className="mt-4">
-        <MakeCropPlan params={params} />
+        <CropPlan params={params} />
       </div>
     </main>
   );

@@ -1,6 +1,7 @@
 import { PlanEntry, buildPlan } from "@/calc/calculator";
 import { StardewDate } from "@/calc/calendar";
 import { Crop } from "@/calc/model";
+import _ from "lodash";
 import { useMemo } from "react";
 
 export interface CropPlanParams {
@@ -12,7 +13,7 @@ interface Props {
   params: CropPlanParams;
 }
 
-export function MakeCropPlan({ params }: Props) {
+export function CropPlan({ params }: Props) {
   const plan = useMemo(() => buildPlan(params.crops, params.date), [params]);
   return (
     <div>
@@ -22,6 +23,7 @@ export function MakeCropPlan({ params }: Props) {
             <td>Crop</td>
             <td>Plant At</td>
             <td>Harvest At</td>
+            <td className="text-right">Profit</td>
           </tr>
         </thead>
         <tbody className="divide-y divide-gray-300">
@@ -30,9 +32,21 @@ export function MakeCropPlan({ params }: Props) {
               <td className="p-1">{planEntry.crop.name}</td>
               <td className="p-1">{planEntry.plantAt.toString()}</td>
               <td className="p-1">{planEntry.harvestAt.toString()}</td>
+              <td className="p-1 text-right">
+                {planEntry.profit.toLocaleString()}
+              </td>
             </tr>
           ))}
         </tbody>
+
+        <tfoot>
+          <tr>
+            <td colSpan={3}></td>
+            <td className="p-1 text-right font-bold">
+              {_.sumBy(plan, "profit").toLocaleString()}
+            </td>
+          </tr>
+        </tfoot>
       </table>
     </div>
   );
