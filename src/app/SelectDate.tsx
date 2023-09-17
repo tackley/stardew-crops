@@ -11,14 +11,15 @@ const DAYS = _.range(1, 28);
 
 export function SelectDate({ date, onChange }: Props) {
   return (
-    <div>
+    <div className="flex items-center">
+      <span className="font-semibold">Day</span>
       <select
         onChange={(e) => {
           const selectedSeason = AllSeasons[Number(e.target.value)];
           onChange(new StardewDate(selectedSeason, date.dayOfMonth));
         }}
         value={date.season.idx}
-        className="py-1"
+        className="py-1 text-xs ml-1"
       >
         {AllSeasons.map((s) => {
           return (
@@ -34,7 +35,7 @@ export function SelectDate({ date, onChange }: Props) {
           onChange(new StardewDate(date.season, selectedDay));
         }}
         value={date.dayOfMonth}
-        className="py-1"
+        className="py-1 text-xs"
       >
         {DAYS.map((d) => {
           return (
