@@ -8,7 +8,7 @@ import { Source } from "./calc/model";
 
 console.log("starting!");
 
-const basicCrops = crops.filter((c) => c.sources.includes(Source.JOJOMART));
+const basicCrops = crops.filter((c) => c.sources.includes(Source.JOJAMART));
 const result = buildPlan(basicCrops, svDate(SPRING, 1));
 
 console.log("\n\n** THE RESULTS ARE IN ** \n");

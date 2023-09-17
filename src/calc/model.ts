@@ -3,12 +3,10 @@ import { Season, StardewDate } from "./calendar";
 export enum Source {
   PIERRE,
   PIERRE_YEAR2_PLUS,
-  JOJOMART,
+  JOJAMART,
   OASIS_SHOP,
   FESTIVALS,
-  TRAVELLING_CART,
-  CRAFTING_FROM_SKILL,
-  CRAFTING_FROM_FRIENDSHIP,
+  TRAVELLING_CART
 }
 
 export type Crop = {
@@ -16,6 +14,7 @@ export type Crop = {
   seedPrice: number;
   sellPrice: number;
   maturityTimeDays: number;
+  regrowTimeDays: number;
   seasons: Season[];
   sources: Source[];
 
@@ -26,6 +25,13 @@ export type Crop = {
     maxHarvestIncreasePerFarmingLevel: number;
     chanceForExtraCrops: number;
   };
+  price: {
+    pierres?: number,
+    jojaMart?: number,
+    oasisShop?: number,
+    festivals?: number,
+    travellingCart?: number
+  }
 };
 
 export function canGrowCropOn(
