@@ -8,7 +8,7 @@ import { Source } from "@/calc/model";
 export default function Home() {
   const [params, setParams] = useState<CropPlanParams>({
     date: new StardewDate(SPRING, 1),
-    crops: crops.filter((c) => c.sources.includes(Source.JOJOMART)),
+    crops: crops.filter((c) => c.sources.includes(Source.JOJAMART)),
   });
 
   return (
