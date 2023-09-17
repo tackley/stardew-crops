@@ -48,10 +48,6 @@ export class Crop {
     return this.data.sellPrice;
   }
 
-  get lowestBuyPrice() {
-    return Math.min(...R.values(this.data.price));
-  }
-
   static for(data: RawCropData) {
     return new Crop(data);
   }
