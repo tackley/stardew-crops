@@ -11,7 +11,7 @@ export const FALL: Season = { name: "Fall", offsetDays: 56, idx: 2 };
 export const AUTUMN = FALL;
 export const WINTER: Season = { name: "Winter", offsetDays: 84, idx: 3 };
 
-const AllSeasons = [SPRING, SUMMER, FALL, WINTER];
+export const AllSeasons = [SPRING, SUMMER, FALL, WINTER];
 
 export class StardewDate {
   public readonly dayOfYear: number;
@@ -49,6 +49,10 @@ export class StardewDate {
   }
 
   toJSON(): any {
+    return this.toString();
+  }
+
+  valueOf(): string {
     return this.toString();
   }
 }
