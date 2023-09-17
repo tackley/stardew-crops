@@ -1,29 +1,21 @@
 "use client";
 import { SPRING, StardewDate } from "@/calc/calendar";
 import { Dispatch, useState } from "react";
-import { CropPlanParams, CropPlan } from "./CropPlan";
-import { crops } from "@/calc/data";
-import { Crop, Source } from "@/calc/model";
+import { CropPlan } from "./CropPlan";
 import { SelectDate } from "./SelectDate";
-import { SelectSources } from "./SelectSources";
-import _ from "lodash";
+import { SelectVendors } from "./SelectSources";
+import { ALL_CROPS, Crop } from "@/calc/crop";
+import { Vendor, Vendors } from "@/calc/model";
 
 interface Selections {
   date: StardewDate;
-  sources: Source[];
-}
-
-function cropsForSources(sources: Source[]): Crop[] {
-  return _.sortBy(
-    crops.filter((c) => c.sources.some((src) => sources.includes(src))),
-    "name"
-  );
+  vendors: Vendor[];
 }
 
 export default function Home() {
   const [selections, setSelections] = useState<Selections>({
     date: new StardewDate(SPRING, 1),
-    sources: [Source.JOJAMART],
+    vendors: [Vendors.pierre, Vendors.joja],
   });
 
   const onDateChange: Dispatch<StardewDate> = (newDate) =>
@@ -32,10 +24,8 @@ export default function Home() {
       date: newDate,
     }));
 
-  const onSourceChange: Dispatch<Source[]> = (newSources) =>
-    setSelections((old) => ({ ...old, sources: newSources }));
-
-  const selectedCrops = cropsForSources(selections.sources);
+  const onVendorsChange: Dispatch<Vendor[]> = (newVendors) =>
+    setSelections((old) => ({ ...old, vendors: newVendors }));
 
   return (
     <main className="min-h-screen p-2 container mx-auto my-4">
@@ -46,19 +36,17 @@ export default function Home() {
       <div className="flex flex-row gap-2 mt-2">
         <SelectDate date={selections.date} onChange={onDateChange} />
 
-        <SelectSources sources={selections.sources} onChange={onSourceChange} />
-      </div>
-      <div className="mt-4">
-        debug: available crops ={" "}
-        {selectedCrops.map((c) => (
-          <span className=" bg-fuchsia-50 mr-1 px-1 rounded-md" key={c.name}>
-            <span className="whitespace-nowrap">{c.name}</span>{" "}
-          </span>
-        ))}
+        <SelectVendors
+          vendors={selections.vendors}
+          onChange={onVendorsChange}
+        />
       </div>
 
       <div className="mt-4">
-        <CropPlan crops={selectedCrops} date={selections.date} />
+        <CropPlan
+          date={selections.date}
+          variables={{ crops: ALL_CROPS, vendors: selections.vendors }}
+        />
       </div>
     </main>
   );

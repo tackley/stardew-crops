@@ -1,8 +1,8 @@
 import { expect, it } from "vitest";
 import crops from "./Crops.json";
 import objInfo from "./ObjectInformation.json";
-import _, { Dictionary } from "lodash";
 import fs from "node:fs";
+import * as R from "remeda";
 
 function parseObjInfoLine(entry: string) {
   const [name, priceString] = entry.split("/");
@@ -13,19 +13,17 @@ function parseObjInfoLine(entry: string) {
   };
 }
 
-const objectInfos: Dictionary<{ name: string; price: number }> = _.mapValues(
-  objInfo,
-  parseObjInfoLine
-);
+const objectInfos: Record<string, { name: string; price: number }> =
+  R.mapValues(objInfo, parseObjInfoLine);
 
-function parseCropLine(id: string, entry: string) {
+function parseCropLine(id: keyof typeof objectInfos, entry: string) {
   const [growth, season, _idx, outputItem, _a, _b, extraChance] =
     entry.split("/");
 
   const seedObjectInfo = objectInfos[id];
   const grownObjectInfo = objectInfos[outputItem];
 
-  const growthtime = _.sum(growth.split(" ").map((v) => Number(v)));
+  const growthtime = R.sumBy(growth.split(" "), (v) => Number(v));
   const seasonString = season.split(" ").map((s) => s.toUpperCase());
 
   let extraHarvestChance;

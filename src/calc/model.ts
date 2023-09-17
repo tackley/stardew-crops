@@ -1,23 +1,36 @@
-import { Season, StardewDate } from "./calendar";
+import { Season } from "./calendar";
+import * as R from "remeda";
 
-// this should be "Vendor"
-
-export enum Source {
-  PIERRE,
-  PIERRE_YEAR2_PLUS,
-  JOJAMART,
-  OASIS_SHOP,
-  EGG_FESTIVAL,
-  TRAVELLING_CART,
+export interface Vendor {
+  name: string;
 }
 
-export type Crop = {
+export const Vendors = {
+  pierre: { name: "General Store" },
+  pierreYear2: { name: "General Store (Yr2+)" },
+  joja: { name: "JojaMart" },
+  oasis: { name: "Oasis Shop" },
+  eggFestival: { name: "Egg Festival" },
+  travellingCart: { name: "Travelling Cart" },
+} satisfies Record<string, Vendor>;
+
+export const ALL_VENDORS = R.values(Vendors);
+
+export type VendorName = keyof typeof Vendors;
+
+// shortcuts!
+export const pierre = Vendors.pierre;
+export const joja = Vendors.joja;
+export const oasis = Vendors.oasis;
+export const eggFestival = Vendors.eggFestival;
+export const travellingCart = Vendors.travellingCart;
+
+export type RawCropData = {
   name: string;
   sellPrice: number;
   maturityTimeDays: number;
   regrowTimeDays?: number;
   seasons: Season[];
-  sources: Source[];
 
   // see https://stardewvalleywiki.com/Modding:Crop_data#Chance_for_extra_harvest
   extraHarvestChance?: {
@@ -26,13 +39,5 @@ export type Crop = {
     maxHarvestIncreasePerFarmingLevel: number;
     chanceForExtraCrops: number;
   };
-  price: Partial<Record<Source, number>>;
+  price: Partial<Record<VendorName, number>>;
 };
-
-export function canGrowCropOn(
-  crop: Crop,
-  dt: StardewDate | undefined
-): boolean {
-  if (!dt) return false;
-  return crop.seasons.includes(dt.season);
-}

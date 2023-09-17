@@ -1,7 +1,7 @@
 import { SPRING, SUMMER, FALL, WINTER } from "./calendar";
-import { Crop, Source } from "./model";
+import { RawCropData } from "./model";
 
-export const crops: Crop[] = [
+export const cropData: RawCropData[] = [
   {
     name: "Rice Shoot",
     maturityTimeDays: 8, // Account for irrigation; it's only 6 if it's irrigated...
@@ -13,10 +13,9 @@ export const crops: Crop[] = [
       maxHarvestIncreasePerFarmingLevel: 10,
       chanceForExtraCrops: 0.1,
     },
-    sources: [Source.PIERRE, Source.TRAVELLING_CART],
     price: {
-      [Source.PIERRE]: 40,
-      [Source.TRAVELLING_CART]: 450,
+      pierre: 40,
+      travellingCart: 450,
     },
   },
   {
@@ -24,11 +23,10 @@ export const crops: Crop[] = [
     maturityTimeDays: 7,
     seasons: [FALL],
     sellPrice: 150,
-    sources: [Source.PIERRE, Source.JOJAMART, Source.TRAVELLING_CART],
     price: {
-      [Source.PIERRE]: 70,
-      [Source.JOJAMART]: 87,
-      [Source.TRAVELLING_CART]: 602.5,
+      pierre: 70,
+      joja: 87,
+      travellingCart: 602.5,
     },
   },
   {
@@ -37,11 +35,10 @@ export const crops: Crop[] = [
     regrowTimeDays: 3,
     seasons: [FALL],
     sellPrice: 80,
-    sources: [Source.PIERRE, Source.JOJAMART, Source.TRAVELLING_CART],
     price: {
-      [Source.PIERRE]: 60,
-      [Source.JOJAMART]: 75,
-      [Source.TRAVELLING_CART]: 600,
+      pierre: 60,
+      joja: 75,
+      travellingCart: 600,
     },
   },
   {
@@ -50,11 +47,10 @@ export const crops: Crop[] = [
     regrowTimeDays: 1,
     seasons: [SUMMER],
     sellPrice: 25,
-    sources: [Source.PIERRE, Source.JOJAMART, Source.TRAVELLING_CART],
     price: {
-      [Source.PIERRE]: 60,
-      [Source.JOJAMART]: 75,
-      [Source.TRAVELLING_CART]: 600,
+      pierre: 60,
+      joja: 75,
+      travellingCart: 600,
     },
   },
   {
@@ -62,9 +58,8 @@ export const crops: Crop[] = [
     maturityTimeDays: 24,
     seasons: [FALL],
     sellPrice: 3000,
-    sources: [Source.TRAVELLING_CART],
     price: {
-      [Source.TRAVELLING_CART]: 1000,
+      travellingCart: 1000,
     },
   },
   {
@@ -72,11 +67,10 @@ export const crops: Crop[] = [
     maturityTimeDays: 12,
     seasons: [FALL],
     sellPrice: 290,
-    sources: [Source.PIERRE, Source.JOJAMART, Source.TRAVELLING_CART],
     price: {
-      [Source.PIERRE]: 200,
-      [Source.JOJAMART]: 250,
-      [Source.TRAVELLING_CART]: 650,
+      pierre: 200,
+      joja: 250,
+      travellingCart: 650,
     },
   },
   {
@@ -84,11 +78,10 @@ export const crops: Crop[] = [
     maturityTimeDays: 6,
     seasons: [SPRING],
     sellPrice: 30,
-    sources: [Source.PIERRE, Source.JOJAMART, Source.TRAVELLING_CART],
     price: {
-      [Source.PIERRE]: 20,
-      [Source.JOJAMART]: 25,
-      [Source.TRAVELLING_CART]: 550,
+      pierre: 20,
+      joja: 25,
+      travellingCart: 550,
     },
   },
   {
@@ -96,11 +89,10 @@ export const crops: Crop[] = [
     maturityTimeDays: 7,
     seasons: [SPRING],
     sellPrice: 50,
-    sources: [Source.PIERRE, Source.JOJAMART, Source.TRAVELLING_CART],
     price: {
-      [Source.PIERRE]: 30,
-      [Source.JOJAMART]: 37,
-      [Source.TRAVELLING_CART]: 600,
+      pierre: 30,
+      joja: 37,
+      travellingCart: 600,
     },
   },
   {
@@ -108,11 +100,10 @@ export const crops: Crop[] = [
     maturityTimeDays: 8,
     seasons: [SUMMER, FALL],
     sellPrice: 80, // Seeds also drop 'between 75% and 90% of the time'; they sell for 20g each, but can be used later on. Seeds have not been included in the 'sellPrice' field.
-    sources: [Source.PIERRE, Source.JOJAMART, Source.TRAVELLING_CART],
     price: {
-      [Source.PIERRE]: 200,
-      [Source.JOJAMART]: 125,
-      [Source.TRAVELLING_CART]: 550,
+      pierre: 200,
+      joja: 125,
+      travellingCart: 550,
     },
   },
   {
@@ -127,9 +118,8 @@ export const crops: Crop[] = [
       maxHarvestIncreasePerFarmingLevel: 0,
       chanceForExtraCrops: 0.02,
     },
-    sources: [Source.TRAVELLING_CART],
     price: {
-      [Source.TRAVELLING_CART]: 550,
+      travellingCart: 550,
     },
   },
   {
@@ -137,11 +127,10 @@ export const crops: Crop[] = [
     maturityTimeDays: 7,
     seasons: [SUMMER],
     sellPrice: 140,
-    sources: [Source.PIERRE, Source.JOJAMART, Source.TRAVELLING_CART],
     price: {
-      [Source.PIERRE]: 100,
-      [Source.JOJAMART]: 125,
-      [Source.TRAVELLING_CART]: 575,
+      pierre: 100,
+      joja: 125,
+      travellingCart: 575,
     },
   },
   {
@@ -149,11 +138,10 @@ export const crops: Crop[] = [
     maturityTimeDays: 8,
     seasons: [SUMMER],
     sellPrice: 90,
-    sources: [Source.PIERRE, Source.JOJAMART, Source.TRAVELLING_CART],
     price: {
-      [Source.PIERRE]: 50,
-      [Source.JOJAMART]: 62,
-      [Source.TRAVELLING_CART]: 550,
+      pierre: 50,
+      joja: 62,
+      travellingCart: 550,
     },
   },
   {
@@ -161,11 +149,10 @@ export const crops: Crop[] = [
     maturityTimeDays: 4,
     seasons: [SPRING],
     sellPrice: 35,
-    sources: [Source.JOJAMART, Source.PIERRE, Source.TRAVELLING_CART],
     price: {
-      [Source.PIERRE]: 20,
-      [Source.JOJAMART]: 25,
-      [Source.TRAVELLING_CART]: 550,
+      pierre: 20,
+      joja: 25,
+      travellingCart: 550,
     },
   },
   {
@@ -174,11 +161,10 @@ export const crops: Crop[] = [
     regrowTimeDays: 3,
     seasons: [SPRING],
     sellPrice: 40,
-    sources: [Source.JOJAMART, Source.PIERRE, Source.TRAVELLING_CART],
     price: {
-      [Source.PIERRE]: 60,
-      [Source.JOJAMART]: 75,
-      [Source.TRAVELLING_CART]: 550,
+      pierre: 60,
+      joja: 75,
+      travellingCart: 550,
     },
   },
   {
@@ -186,11 +172,10 @@ export const crops: Crop[] = [
     maturityTimeDays: 12,
     seasons: [SPRING],
     sellPrice: 175,
-    sources: [Source.JOJAMART, Source.PIERRE, Source.TRAVELLING_CART],
     price: {
-      [Source.PIERRE]: 80,
-      [Source.JOJAMART]: 100,
-      [Source.TRAVELLING_CART]: 560,
+      pierre: 80,
+      joja: 100,
+      travellingCart: 560,
     },
   },
   {
@@ -204,11 +189,10 @@ export const crops: Crop[] = [
       maxHarvestIncreasePerFarmingLevel: 0,
       chanceForExtraCrops: 0.2,
     },
-    sources: [Source.JOJAMART, Source.PIERRE, Source.TRAVELLING_CART],
     price: {
-      [Source.PIERRE]: 50,
-      [Source.JOJAMART]: 62,
-      [Source.TRAVELLING_CART]: 550,
+      pierre: 50,
+      joja: 62,
+      travellingCart: 550,
     },
   },
   {
@@ -216,10 +200,9 @@ export const crops: Crop[] = [
     maturityTimeDays: 4,
     seasons: [SPRING],
     sellPrice: 60,
-    sources: [Source.PIERRE_YEAR2_PLUS, Source.TRAVELLING_CART],
     price: {
-      [Source.PIERRE]: 40,
-      [Source.TRAVELLING_CART]: 550,
+      pierre: 40,
+      travellingCart: 550,
     },
   },
   {
@@ -227,11 +210,10 @@ export const crops: Crop[] = [
     maturityTimeDays: 6,
     seasons: [SPRING],
     sellPrice: 110,
-    sources: [Source.JOJAMART, Source.PIERRE, Source.TRAVELLING_CART],
     price: {
-      [Source.PIERRE]: 70,
-      [Source.JOJAMART]: 87,
-      [Source.TRAVELLING_CART]: 502.5,
+      pierre: 70,
+      joja: 87,
+      travellingCart: 502.5,
     },
   },
   {
@@ -239,10 +221,9 @@ export const crops: Crop[] = [
     maturityTimeDays: 13,
     seasons: [SPRING],
     sellPrice: 220,
-    sources: [Source.OASIS_SHOP, Source.TRAVELLING_CART],
     price: {
-      [Source.OASIS_SHOP]: 100,
-      [Source.TRAVELLING_CART]: 575,
+      oasis: 100,
+      travellingCart: 575,
     },
   },
   {
@@ -250,11 +231,10 @@ export const crops: Crop[] = [
     maturityTimeDays: 12,
     seasons: [SUMMER],
     sellPrice: 250,
-    sources: [Source.JOJAMART, Source.PIERRE, Source.TRAVELLING_CART],
     price: {
-      [Source.PIERRE]: 80,
-      [Source.JOJAMART]: 100,
-      [Source.TRAVELLING_CART]: 560,
+      pierre: 80,
+      joja: 100,
+      travellingCart: 560,
     },
   },
   {
@@ -269,11 +249,10 @@ export const crops: Crop[] = [
       maxHarvestIncreasePerFarmingLevel: 0,
       chanceForExtraCrops: 0.05,
     },
-    sources: [Source.JOJAMART, Source.PIERRE, Source.TRAVELLING_CART],
     price: {
-      [Source.PIERRE]: 50,
-      [Source.JOJAMART]: 62,
-      [Source.TRAVELLING_CART]: 550,
+      pierre: 50,
+      joja: 62,
+      travellingCart: 550,
     },
   },
   {
@@ -288,10 +267,9 @@ export const crops: Crop[] = [
       maxHarvestIncreasePerFarmingLevel: 0,
       chanceForExtraCrops: 0.02,
     },
-    sources: [Source.PIERRE, Source.TRAVELLING_CART],
     price: {
-      [Source.PIERRE]: 80,
-      [Source.TRAVELLING_CART]: 560,
+      pierre: 80,
+      travellingCart: 560,
     },
   },
   {
@@ -306,11 +284,10 @@ export const crops: Crop[] = [
       maxHarvestIncreasePerFarmingLevel: 0,
       chanceForExtraCrops: 0.03,
     },
-    sources: [Source.JOJAMART, Source.PIERRE, Source.TRAVELLING_CART],
     price: {
-      [Source.PIERRE]: 40,
-      [Source.JOJAMART]: 50,
-      [Source.TRAVELLING_CART]: 550,
+      pierre: 40,
+      joja: 50,
+      travellingCart: 550,
     },
   },
   {
@@ -318,11 +295,10 @@ export const crops: Crop[] = [
     maturityTimeDays: 4,
     seasons: [SUMMER, FALL],
     sellPrice: 25,
-    sources: [Source.JOJAMART, Source.PIERRE, Source.TRAVELLING_CART],
     price: {
-      [Source.PIERRE]: 10,
-      [Source.JOJAMART]: 12,
-      [Source.TRAVELLING_CART]: 550,
+      pierre: 10,
+      joja: 12,
+      travellingCart: 550,
     },
   },
   {
@@ -330,11 +306,10 @@ export const crops: Crop[] = [
     maturityTimeDays: 6,
     seasons: [SUMMER],
     sellPrice: 90,
-    sources: [Source.JOJAMART, Source.PIERRE, Source.TRAVELLING_CART],
     price: {
-      [Source.PIERRE]: 40,
-      [Source.JOJAMART]: 50,
-      [Source.TRAVELLING_CART]: 550,
+      pierre: 40,
+      joja: 50,
+      travellingCart: 550,
     },
   },
   {
@@ -342,10 +317,9 @@ export const crops: Crop[] = [
     maturityTimeDays: 9,
     seasons: [SUMMER],
     sellPrice: 260,
-    sources: [Source.PIERRE_YEAR2_PLUS, Source.TRAVELLING_CART],
     price: {
-      [Source.PIERRE]: 100,
-      [Source.TRAVELLING_CART]: 575,
+      pierreYear2: 100,
+      travellingCart: 575,
     },
   },
   {
@@ -353,10 +327,9 @@ export const crops: Crop[] = [
     maturityTimeDays: 13,
     seasons: [SUMMER],
     sellPrice: 750,
-    sources: [Source.OASIS_SHOP, Source.TRAVELLING_CART],
     price: {
-      [Source.OASIS_SHOP]: 400,
-      [Source.TRAVELLING_CART]: 800,
+      oasis: 400,
+      travellingCart: 800,
     },
   },
   {
@@ -365,11 +338,10 @@ export const crops: Crop[] = [
     regrowTimeDays: 4,
     seasons: [SUMMER, FALL],
     sellPrice: 50,
-    sources: [Source.JOJAMART, Source.PIERRE, Source.TRAVELLING_CART],
     price: {
-      [Source.PIERRE]: 150,
-      [Source.JOJAMART]: 187,
-      [Source.TRAVELLING_CART]: 612.5,
+      pierre: 150,
+      joja: 187,
+      travellingCart: 612.5,
     },
   },
   {
@@ -384,11 +356,10 @@ export const crops: Crop[] = [
       maxHarvestIncreasePerFarmingLevel: 0,
       chanceForExtraCrops: 0.002,
     },
-    sources: [Source.JOJAMART, Source.PIERRE, Source.TRAVELLING_CART],
     price: {
-      [Source.PIERRE]: 20,
-      [Source.JOJAMART]: 25,
-      [Source.TRAVELLING_CART]: 550,
+      pierre: 20,
+      joja: 25,
+      travellingCart: 550,
     },
   },
   {
@@ -396,10 +367,9 @@ export const crops: Crop[] = [
     maturityTimeDays: 8,
     seasons: [FALL],
     sellPrice: 160,
-    sources: [Source.PIERRE_YEAR2_PLUS, Source.TRAVELLING_CART],
     price: {
-      [Source.PIERRE]: 30,
-      [Source.TRAVELLING_CART]: 550,
+      pierre: 30,
+      travellingCart: 550,
     },
   },
   {
@@ -407,11 +377,10 @@ export const crops: Crop[] = [
     maturityTimeDays: 13,
     seasons: [FALL],
     sellPrice: 320,
-    sources: [Source.JOJAMART, Source.PIERRE, Source.TRAVELLING_CART],
     price: {
-      [Source.PIERRE]: 100,
-      [Source.JOJAMART]: 125,
-      [Source.TRAVELLING_CART]: 575,
+      pierre: 100,
+      joja: 125,
+      travellingCart: 575,
     },
   },
   {
@@ -419,11 +388,10 @@ export const crops: Crop[] = [
     maturityTimeDays: 4,
     seasons: [FALL],
     sellPrice: 80,
-    sources: [Source.JOJAMART, Source.PIERRE, Source.TRAVELLING_CART],
     price: {
-      [Source.PIERRE]: 50,
-      [Source.JOJAMART]: 62,
-      [Source.TRAVELLING_CART]: 550,
+      pierre: 50,
+      joja: 62,
+      travellingCart: 550,
     },
   },
   {
@@ -431,11 +399,10 @@ export const crops: Crop[] = [
     maturityTimeDays: 10,
     seasons: [FALL],
     sellPrice: 160,
-    sources: [Source.JOJAMART, Source.PIERRE, Source.TRAVELLING_CART],
     price: {
-      [Source.PIERRE]: 60,
-      [Source.JOJAMART]: 75,
-      [Source.TRAVELLING_CART]: 550,
+      pierre: 60,
+      joja: 75,
+      travellingCart: 550,
     },
   },
   {
@@ -450,11 +417,10 @@ export const crops: Crop[] = [
       maxHarvestIncreasePerFarmingLevel: 0,
       chanceForExtraCrops: 0.1,
     },
-    sources: [Source.JOJAMART, Source.PIERRE, Source.TRAVELLING_CART],
     price: {
-      [Source.PIERRE]: 240,
-      [Source.JOJAMART]: 300,
-      [Source.TRAVELLING_CART]: 590,
+      pierre: 240,
+      joja: 300,
+      travellingCart: 590,
     },
   },
   {
@@ -462,10 +428,9 @@ export const crops: Crop[] = [
     maturityTimeDays: 6,
     seasons: [FALL],
     sellPrice: 100,
-    sources: [Source.OASIS_SHOP, Source.TRAVELLING_CART],
     price: {
-      [Source.OASIS_SHOP]: 20,
-      [Source.TRAVELLING_CART]: 550,
+      oasis: 20,
+      travellingCart: 550,
     },
   },
   {
@@ -480,9 +445,8 @@ export const crops: Crop[] = [
       maxHarvestIncreasePerFarmingLevel: 0,
       chanceForExtraCrops: 0.02,
     },
-    sources: [Source.EGG_FESTIVAL],
     price: {
-      [Source.EGG_FESTIVAL]: 100,
+      eggFestival: 100,
     },
   },
   {
@@ -491,9 +455,8 @@ export const crops: Crop[] = [
     regrowTimeDays: 3,
     seasons: [],
     sellPrice: 75,
-    sources: [Source.OASIS_SHOP],
     price: {
-      [Source.OASIS_SHOP]: 150,
+      oasis: 150,
     },
   },
 ];
