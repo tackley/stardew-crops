@@ -41,7 +41,7 @@ export function CropPlan(params: CropPlanParams) {
 
         <tfoot>
           <tr>
-            <td colSpan={3}></td>
+            <td colSpan={4}></td>
             <td className="p-1 text-right font-bold">
               {R.sumBy(plan, (p) => p.profit).toLocaleString()}
             </td>
