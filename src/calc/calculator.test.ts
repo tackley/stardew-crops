@@ -1,5 +1,5 @@
-import { test, it, expect, describe } from "vitest";
-import { PlanEntry, buildPlan, canIPlant, profitPerDay } from "./calculator";
+import { it, expect, describe } from "vitest";
+import { PlanEntry, buildPlan, canIPlant } from "./calculator";
 import { Crop, Source } from "./model";
 import { FALL, SPRING, SUMMER, StardewDate, WINTER, svDate } from "./calendar";
 import { crops } from "./data";
@@ -7,37 +7,6 @@ import { crops } from "./data";
 it("should be able to go 😈😈😈😈😈 mode", () => {
   const devious: string = "🥹😀🫠😧😵";
   expect(devious).toBe("🥹😀🫠😧😵");
-});
-
-it("should calculate basic profit per day", () => {
-  const testCrop: Crop = {
-    name: "test crop",
-    seedPrice: 10,
-    maturityTimeDays: 1,
-    regrowTimeDays: -1,
-    sellPrice: 20,
-    seasons: [SPRING],
-    sources: [Source.JOJAMART],
-    price: {
-      jojaMart: 10
-    }
-  };
-
-  expect(profitPerDay(testCrop)).toBe(10);
-
-  expect(
-    profitPerDay({
-      ...testCrop,
-      seedPrice: 9,
-    })
-  ).toBe(11);
-
-  expect(
-    profitPerDay({
-      ...testCrop,
-      maturityTimeDays: 2,
-    })
-  ).toBe(5);
 });
 
 /*
@@ -51,15 +20,13 @@ describe("can I plant it?", () => {
   it("should say no if the crop isn't in season", () => {
     const testCrop: Crop = {
       name: "test crop",
-      seedPrice: 10,
       maturityTimeDays: 1,
-      regrowTimeDays: -1,
       sellPrice: 20,
       seasons: [SPRING, SUMMER],
       sources: [Source.JOJAMART],
       price: {
-        jojaMart: 10
-      }
+        [Source.JOJAMART]: 10,
+      },
     };
     expect(canIPlant(testCrop, new StardewDate(FALL, 1))).toBeUndefined();
   });
@@ -67,15 +34,13 @@ describe("can I plant it?", () => {
   it("should say yes if the crop isn't in season", () => {
     const testCrop: Crop = {
       name: "test crop",
-      seedPrice: 10,
       maturityTimeDays: 4,
-      regrowTimeDays: -1,
       sellPrice: 20,
       seasons: [SPRING, SUMMER],
       sources: [Source.JOJAMART],
       price: {
-        jojaMart: 10
-      }
+        [Source.JOJAMART]: 10,
+      },
     };
     expect(canIPlant(testCrop, new StardewDate(SPRING, 1))).toMatchObject({
       profit: 10,
@@ -86,15 +51,13 @@ describe("can I plant it?", () => {
   it("should say no if the crop doesn't have time to grow", () => {
     const testCrop: Crop = {
       name: "test crop",
-      seedPrice: 10,
       maturityTimeDays: 4,
-      regrowTimeDays: -1,
       sellPrice: 20,
       seasons: [SPRING, SUMMER],
       sources: [Source.JOJAMART],
       price: {
-        jojaMart: 10
-      }
+        [Source.JOJAMART]: 10,
+      },
     };
     expect(canIPlant(testCrop, new StardewDate(SUMMER, 27))).toBeUndefined();
   });
@@ -104,15 +67,13 @@ describe("optimal sequence calculator", () => {
   it("should work in a very simple case", () => {
     const testCrop1: Crop = {
       name: "spring crop",
-      seedPrice: 50,
       maturityTimeDays: 13,
-      regrowTimeDays: -1,
       sellPrice: 180,
       seasons: [SPRING],
       sources: [Source.JOJAMART],
       price: {
-        jojaMart: 50
-      }
+        [Source.JOJAMART]: 50,
+      },
     };
 
     const plan = buildPlan([testCrop1], svDate(SPRING, 1));
@@ -136,15 +97,13 @@ describe("optimal sequence calculator", () => {
   it("should work in a very simple case with WINTER crops", () => {
     const testCrop1: Crop = {
       name: "winter crop",
-      seedPrice: 50,
       maturityTimeDays: 10,
-      regrowTimeDays: -1,
       sellPrice: 150,
       seasons: [WINTER],
       sources: [Source.JOJAMART],
       price: {
-        jojaMart: 50
-      }
+        [Source.JOJAMART]: 50,
+      },
     };
 
     const plan = buildPlan([testCrop1], svDate(SPRING, 1));
@@ -168,51 +127,43 @@ describe("optimal sequence calculator", () => {
   it("should be able to find the best crop sequence", () => {
     const testCrop1: Crop = {
       name: "spring crop",
-      seedPrice: 50,
       maturityTimeDays: 13,
-      regrowTimeDays: -1,
       sellPrice: 180,
       seasons: [SPRING],
       sources: [Source.JOJAMART],
       price: {
-        jojaMart: 50
-      }
+        [Source.JOJAMART]: 50,
+      },
     };
     const testCrop2: Crop = {
       name: "summer crop",
-      seedPrice: 30,
       maturityTimeDays: 4,
-      regrowTimeDays: -1,
       sellPrice: 50,
       seasons: [SUMMER],
       sources: [Source.JOJAMART],
       price: {
-        jojaMart: 30
-      }
+        [Source.JOJAMART]: 30,
+      },
     };
     const testCrop3: Crop = {
       name: "fall crop",
-      seedPrice: 80,
       maturityTimeDays: 13,
-      regrowTimeDays: -1,
       sellPrice: 210,
       seasons: [FALL],
       sources: [Source.JOJAMART],
       price: {
-        jojaMart: 80
-      }
+        [Source.JOJAMART]: 80,
+      },
     };
     const testCrop4: Crop = {
       name: "cross-season crop",
-      seedPrice: 50,
       maturityTimeDays: 7,
-      regrowTimeDays: -1,
       sellPrice: 100,
       seasons: [SPRING, SUMMER],
       sources: [Source.JOJAMART],
       price: {
-        jojaMart: 50
-      }
+        [Source.JOJAMART]: 50,
+      },
     };
 
     const plan = buildPlan(
@@ -273,10 +224,205 @@ describe("optimal sequence calculator", () => {
   });
 });
 
-it.skip("should do something amazing with the real crops", () => {
+it("should do something amazing with the real crops", () => {
   const result = buildPlan(crops, svDate(SPRING, 1));
 
-  expect(result).toMatchInlineSnapshot();
+  expect(result).toMatchInlineSnapshot(`
+    [
+      {
+        "crop": {
+          "maturityTimeDays": 6,
+          "name": "Kale Seeds",
+          "price": {
+            "0": 70,
+            "2": 87,
+            "5": 502.5,
+          },
+          "seasons": [
+            {
+              "idx": 0,
+              "name": "Spring",
+              "offsetDays": 0,
+            },
+          ],
+          "sellPrice": 110,
+          "sources": [
+            2,
+            0,
+            5,
+          ],
+        },
+        "harvestAt": "Spring 7",
+        "plantAt": "Spring 1",
+        "profit": 40,
+      },
+      {
+        "crop": {
+          "maturityTimeDays": 13,
+          "name": "Rhubarb Seeds",
+          "price": {
+            "3": 100,
+            "5": 575,
+          },
+          "seasons": [
+            {
+              "idx": 0,
+              "name": "Spring",
+              "offsetDays": 0,
+            },
+          ],
+          "sellPrice": 220,
+          "sources": [
+            3,
+            5,
+          ],
+        },
+        "harvestAt": "Spring 20",
+        "plantAt": "Spring 7",
+        "profit": 120,
+      },
+      {
+        "crop": {
+          "extraHarvestChance": {
+            "chanceForExtraCrops": 0.02,
+            "maxHarvest": 4,
+            "maxHarvestIncreasePerFarmingLevel": 0,
+            "minHarvest": 4,
+          },
+          "maturityTimeDays": 10,
+          "name": "Coffee Bean",
+          "price": {
+            "5": 550,
+          },
+          "regrowTimeDays": 2,
+          "seasons": [
+            {
+              "idx": 0,
+              "name": "Spring",
+              "offsetDays": 0,
+            },
+            {
+              "idx": 1,
+              "name": "Summer",
+              "offsetDays": 28,
+            },
+          ],
+          "sellPrice": 15,
+          "sources": [
+            5,
+          ],
+        },
+        "harvestAt": "Summer 2",
+        "plantAt": "Spring 20",
+        "profit": -535,
+      },
+      {
+        "crop": {
+          "maturityTimeDays": 13,
+          "name": "Starfruit Seeds",
+          "price": {
+            "3": 400,
+            "5": 800,
+          },
+          "seasons": [
+            {
+              "idx": 1,
+              "name": "Summer",
+              "offsetDays": 28,
+            },
+          ],
+          "sellPrice": 750,
+          "sources": [
+            0,
+            5,
+          ],
+        },
+        "harvestAt": "Summer 15",
+        "plantAt": "Summer 2",
+        "profit": 350,
+      },
+      {
+        "crop": {
+          "maturityTimeDays": 13,
+          "name": "Starfruit Seeds",
+          "price": {
+            "3": 400,
+            "5": 800,
+          },
+          "seasons": [
+            {
+              "idx": 1,
+              "name": "Summer",
+              "offsetDays": 28,
+            },
+          ],
+          "sellPrice": 750,
+          "sources": [
+            0,
+            5,
+          ],
+        },
+        "harvestAt": "Summer 28",
+        "plantAt": "Summer 15",
+        "profit": 350,
+      },
+      {
+        "crop": {
+          "maturityTimeDays": 4,
+          "name": "Wheat Seeds",
+          "price": {
+            "0": 10,
+            "2": 12,
+            "5": 550,
+          },
+          "seasons": [
+            {
+              "idx": 1,
+              "name": "Summer",
+              "offsetDays": 28,
+            },
+            {
+              "idx": 2,
+              "name": "Fall",
+              "offsetDays": 56,
+            },
+          ],
+          "sellPrice": 25,
+          "sources": [
+            2,
+            0,
+            5,
+          ],
+        },
+        "harvestAt": "Fall 4",
+        "plantAt": "Summer 28",
+        "profit": 15,
+      },
+      {
+        "crop": {
+          "maturityTimeDays": 24,
+          "name": "Rare Seed",
+          "price": {
+            "5": 1000,
+          },
+          "seasons": [
+            {
+              "idx": 2,
+              "name": "Fall",
+              "offsetDays": 56,
+            },
+          ],
+          "sellPrice": 3000,
+          "sources": [
+            5,
+          ],
+        },
+        "harvestAt": "Fall 28",
+        "plantAt": "Fall 4",
+        "profit": 2000,
+      },
+    ]
+  `);
 });
 
 it.todo("should be able to get properties of crops");

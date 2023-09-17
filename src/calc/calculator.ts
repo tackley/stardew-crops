@@ -1,11 +1,9 @@
 import _ from "lodash";
 import { StardewDate } from "./calendar";
-import { Crop, canGrowCropOn } from "./model";
+import { Crop, Source, canGrowCropOn } from "./model";
 
-export function profitPerDay(crop: Crop): number {
-  const totalProfit = crop.sellPrice - crop.seedPrice;
-  const profitPerDay = totalProfit / crop.maturityTimeDays;
-  return profitPerDay;
+function calcBestPrice(crop: Crop): number | undefined {
+  return _.min(Object.values(crop.price));
 }
 
 export function canIPlant(
@@ -15,8 +13,12 @@ export function canIPlant(
   if (canGrowCropOn(crop, dt)) {
     const maturityDate = dt.addDays(crop.maturityTimeDays);
     if (maturityDate && canGrowCropOn(crop, maturityDate)) {
-      const profit = crop.sellPrice - crop.seedPrice;
-      return { profit: profit, plotFreeAt: maturityDate };
+      const bestSeedPrice = calcBestPrice(crop);
+
+      if (bestSeedPrice) {
+        const profit = crop.sellPrice - bestSeedPrice;
+        return { profit: profit, plotFreeAt: maturityDate };
+      }
     }
   }
 }

@@ -1,5 +1,7 @@
 import { Season, StardewDate } from "./calendar";
 
+// this should be "Vendor"
+
 export enum Source {
   PIERRE,
   PIERRE_YEAR2_PLUS,
@@ -11,10 +13,9 @@ export enum Source {
 
 export type Crop = {
   name: string;
-  seedPrice: number;
   sellPrice: number;
   maturityTimeDays: number;
-  regrowTimeDays: number;
+  regrowTimeDays?: number;
   seasons: Season[];
   sources: Source[];
 
@@ -25,13 +26,7 @@ export type Crop = {
     maxHarvestIncreasePerFarmingLevel: number;
     chanceForExtraCrops: number;
   };
-  price: {
-    pierres?: number;
-    jojaMart?: number;
-    oasisShop?: number;
-    festivals?: number;
-    travellingCart?: number;
-  };
+  price: Partial<Record<Source, number>>;
 };
 
 export function canGrowCropOn(
