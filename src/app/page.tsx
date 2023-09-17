@@ -1,9 +1,10 @@
 "use client";
 import { SPRING, StardewDate } from "@/calc/calendar";
-import { useState } from "react";
+import { Dispatch, useState } from "react";
 import { CropPlanParams, CropPlan } from "./CropPlan";
 import { crops } from "@/calc/data";
 import { Source } from "@/calc/model";
+import { SelectDate } from "./SelectDate";
 
 export default function Home() {
   const [params, setParams] = useState<CropPlanParams>({
@@ -11,6 +12,14 @@ export default function Home() {
     crops: crops.filter((c) => c.sources.includes(Source.JOJOMART)),
   });
 
+  const onDateChange: Dispatch<StardewDate> = (newDate) => {
+    setParams((old) => {
+      return {
+        ...old,
+        date: newDate,
+      };
+    });
+  };
   return (
     <main className="min-h-screen p-2 container mx-auto my-4">
       <h1 className="text-3xl font-bold">
@@ -24,8 +33,8 @@ export default function Home() {
           <li></li>
         </ul> */}
 
-      <div className="flex flex-row gap-2">
-        <div>Date: {params.date.toString()}</div>
+      <div className="flex flex-row gap-2 mt-2">
+        <SelectDate date={params.date} onChange={onDateChange} />
 
         <div className="bg-slate-200">TODO: Select sources</div>
       </div>
