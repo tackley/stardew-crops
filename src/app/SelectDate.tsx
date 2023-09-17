@@ -1,13 +1,13 @@
 import { AllSeasons, SPRING, StardewDate } from "@/calc/calendar";
-import _ from "lodash";
 import { Dispatch } from "react";
+import * as R from "remeda";
 
 interface Props {
   date: StardewDate;
   onChange: Dispatch<StardewDate>;
 }
 
-const DAYS = _.range(1, 28);
+const DAYS = R.range(1, 28);
 
 export function SelectDate({ date, onChange }: Props) {
   return (

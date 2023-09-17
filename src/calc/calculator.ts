@@ -1,29 +1,33 @@
-import _ from "lodash";
 import { StardewDate } from "./calendar";
-import { Crop, canGrowCropOn } from "./model";
-
-export function profitPerDay(crop: Crop): number {
-  const totalProfit = crop.sellPrice - crop.seedPrice;
-  const profitPerDay = totalProfit / crop.maturityTimeDays;
-  return profitPerDay;
-}
+import { Crop } from "./crop";
+import * as R from "remeda";
+import { Vendor } from "./model";
 
 export function canIPlant(
   crop: Crop,
-  dt: StardewDate
-): { profit: number; plotFreeAt: StardewDate } | undefined {
-  if (canGrowCropOn(crop, dt)) {
-    const maturityDate = dt.addDays(crop.maturityTimeDays);
-    if (maturityDate && canGrowCropOn(crop, maturityDate)) {
-      const profit = crop.sellPrice - crop.seedPrice;
-      return { profit: profit, plotFreeAt: maturityDate };
-    }
-  }
+  dt: StardewDate,
+  vendors: Vendor[]
+): { profit: number; plotFreeAt: StardewDate; buyFrom: Vendor } | undefined {
+  if (!crop.canGrowOn(dt)) return;
+
+  const bestVendorAndPrice = crop.bestVendorFrom(vendors);
+  if (!bestVendorAndPrice) return;
+
+  const maturityDate = dt.addDays(crop.maturityTimeDays);
+  if (!maturityDate || !crop.canGrowOn(maturityDate)) return;
+
+  const profit = crop.sellPrice - bestVendorAndPrice.price;
+  return {
+    profit: profit,
+    plotFreeAt: maturityDate,
+    buyFrom: bestVendorAndPrice.vendor,
+  };
 }
 
 export interface PlanEntry {
   plantAt: StardewDate;
   harvestAt: StardewDate;
+  buyFrom: Vendor;
   crop: Crop;
   profit: number;
 }
@@ -39,22 +43,30 @@ interface Plan {
 
 type BestPlanCache = Map<number, Plan>;
 
-export function buildPlan(crops: Crop[], startDate: StardewDate): PlanEntry[] {
+export interface PlanVariables {
+  crops: Crop[];
+  vendors: Vendor[];
+}
+
+export function buildPlan(
+  startDate: StardewDate,
+  variables: PlanVariables
+): PlanEntry[] {
   const bestPlans = new Map<number, Plan>();
-  return buildPlanWithCache(bestPlans, crops, startDate);
+  return buildPlanWithCache(bestPlans, startDate, variables);
 }
 
 function buildPlanWithCache(
   bestPlans: BestPlanCache,
-  crops: Crop[],
-  startDate: StardewDate
+  startDate: StardewDate,
+  variables: PlanVariables
 ): PlanEntry[] {
   const savedPlan = bestPlans.get(startDate.dayOfYear);
   if (savedPlan) return savedPlan.plan;
 
   // for each crop that we can plant on startDate
-  const potentialCropsToPlant = crops.flatMap((crop) => {
-    const plantable = canIPlant(crop, startDate);
+  const potentialCropsToPlant = variables.crops.flatMap((crop) => {
+    const plantable = canIPlant(crop, startDate, variables.vendors);
 
     if (plantable) return [{ crop, plantable }];
     else return [];
@@ -63,7 +75,7 @@ function buildPlanWithCache(
   if (potentialCropsToPlant.length === 0) {
     const nextSeason = startDate.nextSeason();
     if (nextSeason) {
-      return buildPlanWithCache(bestPlans, crops, nextSeason);
+      return buildPlanWithCache(bestPlans, nextSeason, variables);
     } else {
       return [];
     }
@@ -76,24 +88,23 @@ function buildPlanWithCache(
       harvestAt: p.plantable.plotFreeAt,
       plantAt: startDate,
       profit: p.plantable.profit,
+      buyFrom: p.plantable.buyFrom,
     };
     const plan = [
       thisCropPlanEntry,
-      ...buildPlanWithCache(bestPlans, crops, p.plantable.plotFreeAt),
+      ...buildPlanWithCache(bestPlans, p.plantable.plotFreeAt, variables),
     ];
 
     return {
       plan,
-      profit: _.sumBy(plan, "profit"),
+      profit: R.sumBy(plan, (p) => p.profit),
     };
   });
 
-  const bestPlan = _.maxBy(possiblePlans, "profit") ?? { plan: [], profit: 0 };
-  console.log(
-    `${startDate}: profit ${bestPlan.profit} plan ${dbgPlanOutput(
-      bestPlan.plan
-    )}`
-  );
+  const bestPlan = R.maxBy(possiblePlans, (p) => p.profit) ?? {
+    plan: [],
+    profit: 0,
+  };
   bestPlans.set(startDate.dayOfYear, bestPlan);
   return bestPlan.plan;
 }

@@ -1,43 +1,12 @@
-import { test, it, expect, describe } from "vitest";
-import { PlanEntry, buildPlan, canIPlant, profitPerDay } from "./calculator";
-import { Crop, Source } from "./model";
+import { it, expect, describe } from "vitest";
+import { PlanEntry, buildPlan, canIPlant } from "./calculator";
+import { ALL_VENDORS, RawCropData, Vendors, joja } from "./model";
 import { FALL, SPRING, SUMMER, StardewDate, WINTER, svDate } from "./calendar";
-import { crops } from "./data";
+import { ALL_CROPS, Crop } from "./crop";
 
 it("should be able to go 😈😈😈😈😈 mode", () => {
   const devious: string = "🥹😀🫠😧😵";
   expect(devious).toBe("🥹😀🫠😧😵");
-});
-
-it("should calculate basic profit per day", () => {
-  const testCrop: Crop = {
-    name: "test crop",
-    seedPrice: 10,
-    maturityTimeDays: 1,
-    regrowTimeDays: -1,
-    sellPrice: 20,
-    seasons: [SPRING],
-    sources: [Source.JOJAMART],
-    price: {
-      jojaMart: 10
-    }
-  };
-
-  expect(profitPerDay(testCrop)).toBe(10);
-
-  expect(
-    profitPerDay({
-      ...testCrop,
-      seedPrice: 9,
-    })
-  ).toBe(11);
-
-  expect(
-    profitPerDay({
-      ...testCrop,
-      maturityTimeDays: 2,
-    })
-  ).toBe(5);
 });
 
 /*
@@ -49,73 +18,89 @@ if so, when will the tile become free, and what will the profit be?
 */
 describe("can I plant it?", () => {
   it("should say no if the crop isn't in season", () => {
-    const testCrop: Crop = {
+    const testCrop: RawCropData = {
       name: "test crop",
-      seedPrice: 10,
       maturityTimeDays: 1,
-      regrowTimeDays: -1,
       sellPrice: 20,
       seasons: [SPRING, SUMMER],
-      sources: [Source.JOJAMART],
       price: {
-        jojaMart: 10
-      }
+        joja: 10,
+      },
     };
-    expect(canIPlant(testCrop, new StardewDate(FALL, 1))).toBeUndefined();
+    expect(
+      canIPlant(Crop.for(testCrop), new StardewDate(FALL, 1), ALL_VENDORS)
+    ).toBeUndefined();
   });
 
-  it("should say yes if the crop isn't in season", () => {
-    const testCrop: Crop = {
+  it("should say no if the crop isn't sold by the filtered vendor", () => {
+    const testCrop: RawCropData = {
       name: "test crop",
-      seedPrice: 10,
-      maturityTimeDays: 4,
-      regrowTimeDays: -1,
+      maturityTimeDays: 1,
       sellPrice: 20,
       seasons: [SPRING, SUMMER],
-      sources: [Source.JOJAMART],
       price: {
-        jojaMart: 10
-      }
+        joja: 10,
+      },
     };
-    expect(canIPlant(testCrop, new StardewDate(SPRING, 1))).toMatchObject({
+    expect(
+      canIPlant(Crop.for(testCrop), new StardewDate(SUMMER, 1), [Vendors.oasis])
+    ).toBeUndefined();
+  });
+
+  it("should say yes if the crop is in season", () => {
+    const testCrop: RawCropData = {
+      name: "test crop",
+      maturityTimeDays: 4,
+      sellPrice: 20,
+      seasons: [SPRING, SUMMER],
+      price: {
+        joja: 10,
+      },
+    };
+    expect(
+      canIPlant(Crop.for(testCrop), new StardewDate(SPRING, 1), ALL_VENDORS)
+    ).toMatchObject({
       profit: 10,
       plotFreeAt: new StardewDate(SPRING, 5),
     });
   });
 
   it("should say no if the crop doesn't have time to grow", () => {
-    const testCrop: Crop = {
+    const testCrop: RawCropData = {
       name: "test crop",
-      seedPrice: 10,
       maturityTimeDays: 4,
-      regrowTimeDays: -1,
       sellPrice: 20,
       seasons: [SPRING, SUMMER],
-      sources: [Source.JOJAMART],
       price: {
-        jojaMart: 10
-      }
+        joja: 10,
+      },
     };
-    expect(canIPlant(testCrop, new StardewDate(SUMMER, 27))).toBeUndefined();
+    expect(
+      canIPlant(Crop.for(testCrop), new StardewDate(SUMMER, 27), ALL_VENDORS)
+    ).toBeUndefined();
   });
 });
 
+const defaultVariables = {
+  vendors: ALL_VENDORS,
+};
+
 describe("optimal sequence calculator", () => {
   it("should work in a very simple case", () => {
-    const testCrop1: Crop = {
+    const testCrop1 = Crop.for({
       name: "spring crop",
-      seedPrice: 50,
       maturityTimeDays: 13,
-      regrowTimeDays: -1,
       sellPrice: 180,
       seasons: [SPRING],
-      sources: [Source.JOJAMART],
       price: {
-        jojaMart: 50
-      }
-    };
+        joja: 50,
+      },
+    });
 
-    const plan = buildPlan([testCrop1], svDate(SPRING, 1));
+    const plan = buildPlan(svDate(SPRING, 1), {
+      crops: [testCrop1],
+      vendors: ALL_VENDORS,
+    });
 
     expect(plan).toMatchObject<PlanEntry[]>([
       {
@@ -123,31 +108,33 @@ describe("optimal sequence calculator", () => {
         plantAt: svDate(SPRING, 1),
         harvestAt: svDate(SPRING, 14),
         profit: 130,
+        buyFrom: joja,
       },
       {
         crop: testCrop1,
         plantAt: svDate(SPRING, 14),
         harvestAt: svDate(SPRING, 27),
         profit: 130,
+        buyFrom: joja,
       },
     ]);
   });
 
   it("should work in a very simple case with WINTER crops", () => {
-    const testCrop1: Crop = {
+    const testCrop1 = Crop.for({
       name: "winter crop",
-      seedPrice: 50,
       maturityTimeDays: 10,
-      regrowTimeDays: -1,
       sellPrice: 150,
       seasons: [WINTER],
-      sources: [Source.JOJAMART],
       price: {
-        jojaMart: 50
-      }
-    };
+        joja: 50,
+      },
+    });
 
-    const plan = buildPlan([testCrop1], svDate(SPRING, 1));
+    const plan = buildPlan(svDate(SPRING, 1), {
+      crops: [testCrop1],
+      vendors: ALL_VENDORS,
+    });
 
     expect(plan).toMatchObject<PlanEntry[]>([
       {
@@ -155,70 +142,60 @@ describe("optimal sequence calculator", () => {
         plantAt: svDate(WINTER, 1),
         harvestAt: svDate(WINTER, 11),
         profit: 100,
+        buyFrom: joja,
       },
       {
         crop: testCrop1,
         plantAt: svDate(WINTER, 11),
         harvestAt: svDate(WINTER, 21),
         profit: 100,
+        buyFrom: joja,
       },
     ]);
   });
 
   it("should be able to find the best crop sequence", () => {
-    const testCrop1: Crop = {
+    const testCrop1 = Crop.for({
       name: "spring crop",
-      seedPrice: 50,
       maturityTimeDays: 13,
-      regrowTimeDays: -1,
       sellPrice: 180,
       seasons: [SPRING],
-      sources: [Source.JOJAMART],
       price: {
-        jojaMart: 50
-      }
-    };
-    const testCrop2: Crop = {
+        joja: 50,
+      },
+    });
+    const testCrop2 = Crop.for({
       name: "summer crop",
-      seedPrice: 30,
       maturityTimeDays: 4,
-      regrowTimeDays: -1,
       sellPrice: 50,
       seasons: [SUMMER],
-      sources: [Source.JOJAMART],
       price: {
-        jojaMart: 30
-      }
-    };
-    const testCrop3: Crop = {
+        joja: 30,
+      },
+    });
+    const testCrop3 = Crop.for({
       name: "fall crop",
-      seedPrice: 80,
       maturityTimeDays: 13,
-      regrowTimeDays: -1,
       sellPrice: 210,
       seasons: [FALL],
-      sources: [Source.JOJAMART],
       price: {
-        jojaMart: 80
-      }
-    };
-    const testCrop4: Crop = {
+        joja: 80,
+      },
+    });
+    const testCrop4 = Crop.for({
       name: "cross-season crop",
-      seedPrice: 50,
       maturityTimeDays: 7,
-      regrowTimeDays: -1,
       sellPrice: 100,
       seasons: [SPRING, SUMMER],
-      sources: [Source.JOJAMART],
       price: {
-        jojaMart: 50
-      }
-    };
+        joja: 50,
+      },
+    });
 
-    const plan = buildPlan(
-      [testCrop1, testCrop2, testCrop3, testCrop4],
-      svDate(SPRING, 1)
-    );
+    const plan = buildPlan(svDate(SPRING, 1), {
+      crops: [testCrop1, testCrop2, testCrop3, testCrop4],
+      vendors: ALL_VENDORS,
+    });
 
     expect(plan).toMatchObject<PlanEntry[]>([
       {
@@ -226,57 +203,66 @@ describe("optimal sequence calculator", () => {
         plantAt: svDate(SPRING, 1),
         harvestAt: svDate(SPRING, 14),
         profit: 130,
+        buyFrom: joja,
       },
       {
         crop: testCrop1,
         plantAt: svDate(SPRING, 14),
         harvestAt: svDate(SPRING, 27),
         profit: 130,
+        buyFrom: joja,
       },
       {
         crop: testCrop4,
         plantAt: svDate(SPRING, 27),
         harvestAt: svDate(SUMMER, 6),
         profit: 50,
+        buyFrom: joja,
       },
       {
         crop: testCrop4,
         plantAt: svDate(SUMMER, 6),
         harvestAt: svDate(SUMMER, 13),
         profit: 50,
+        buyFrom: joja,
       },
       {
         crop: testCrop4,
         plantAt: svDate(SUMMER, 13),
         harvestAt: svDate(SUMMER, 20),
         profit: 50,
+        buyFrom: joja,
       },
       {
         crop: testCrop4,
         plantAt: svDate(SUMMER, 20),
         harvestAt: svDate(SUMMER, 27),
         profit: 50,
+        buyFrom: joja,
       },
       {
         crop: testCrop3,
         plantAt: svDate(FALL, 1),
         harvestAt: svDate(FALL, 14),
         profit: 130,
+        buyFrom: joja,
       },
       {
         crop: testCrop3,
         plantAt: svDate(FALL, 14),
         harvestAt: svDate(FALL, 27),
         profit: 130,
+        buyFrom: joja,
       },
     ]);
   });
 });
 
-it.skip("should do something amazing with the real crops", () => {
-  const result = buildPlan(crops, svDate(SPRING, 1));
-
-  expect(result).toMatchInlineSnapshot();
+it("should do something amazing with the real crops", () => {
+  const result = buildPlan(svDate(SPRING, 1), {
+    crops: ALL_CROPS,
+    vendors: ALL_VENDORS,
+  });
 });
 
 it.todo("should be able to get properties of crops");
