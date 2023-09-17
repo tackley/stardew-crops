@@ -5,8 +5,8 @@ export enum Source {
   PIERRE_YEAR2_PLUS,
   JOJAMART,
   OASIS_SHOP,
-  FESTIVALS,
-  TRAVELLING_CART
+  EGG_FESTIVAL,
+  TRAVELLING_CART,
 }
 
 export type Crop = {
@@ -26,12 +26,12 @@ export type Crop = {
     chanceForExtraCrops: number;
   };
   price: {
-    pierres?: number,
-    jojaMart?: number,
-    oasisShop?: number,
-    festivals?: number,
-    travellingCart?: number
-  }
+    pierres?: number;
+    jojaMart?: number;
+    oasisShop?: number;
+    festivals?: number;
+    travellingCart?: number;
+  };
 };
 
 export function canGrowCropOn(

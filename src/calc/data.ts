@@ -19,7 +19,7 @@ export const crops: Crop[] = [
     price: {
       pierres: 40,
       travellingCart: 450,
-    }
+    },
   },
   {
     name: "Amaranth Seeds",
@@ -33,7 +33,7 @@ export const crops: Crop[] = [
       pierres: 70,
       jojaMart: 87,
       travellingCart: 602.5,
-    }
+    },
   },
   {
     name: "Grape Starter",
@@ -47,7 +47,7 @@ export const crops: Crop[] = [
       pierres: 60,
       jojaMart: 75,
       travellingCart: 600,
-    }
+    },
   },
   {
     name: "Hops Starter",
@@ -60,8 +60,8 @@ export const crops: Crop[] = [
     price: {
       pierres: 60,
       jojaMart: 75,
-      travellingCart: 600
-    }
+      travellingCart: 600,
+    },
   },
   {
     name: "Rare Seed",
@@ -72,8 +72,8 @@ export const crops: Crop[] = [
     sellPrice: 3000,
     sources: [Source.TRAVELLING_CART],
     price: {
-      travellingCart: 1000
-    }
+      travellingCart: 1000,
+    },
   },
   {
     name: "Fairy Seeds",
@@ -87,7 +87,7 @@ export const crops: Crop[] = [
       pierres: 200,
       jojaMart: 250,
       travellingCart: 650,
-    }
+    },
   },
   {
     name: "Tulip Bulb",
@@ -101,7 +101,7 @@ export const crops: Crop[] = [
       pierres: 20,
       jojaMart: 25,
       travellingCart: 550,
-    }
+    },
   },
   {
     name: "Jazz Seeds",
@@ -115,7 +115,7 @@ export const crops: Crop[] = [
       pierres: 30,
       jojaMart: 37,
       travellingCart: 600,
-    }
+    },
   },
   {
     name: "Sunflower Seeds",
@@ -128,8 +128,8 @@ export const crops: Crop[] = [
     price: {
       pierres: 200,
       jojaMart: 125,
-      travellingCart: 550
-    }
+      travellingCart: 550,
+    },
   },
   {
     name: "Coffee Bean",
@@ -146,8 +146,8 @@ export const crops: Crop[] = [
     },
     sources: [Source.TRAVELLING_CART],
     price: {
-      travellingCart: 550
-    }
+      travellingCart: 550,
+    },
   },
   {
     name: "Poppy Seeds",
@@ -161,7 +161,7 @@ export const crops: Crop[] = [
       pierres: 100,
       jojaMart: 125,
       travellingCart: 575,
-    }
+    },
   },
   {
     name: "Spangle Seeds",
@@ -175,7 +175,7 @@ export const crops: Crop[] = [
       pierres: 50,
       jojaMart: 62,
       travellingCart: 550,
-    }
+    },
   },
   {
     name: "Parsnip Seeds",
@@ -189,7 +189,7 @@ export const crops: Crop[] = [
       pierres: 20,
       jojaMart: 25,
       travellingCart: 550,
-    }
+    },
   },
   {
     name: "Bean Starter",
@@ -203,7 +203,7 @@ export const crops: Crop[] = [
       pierres: 60,
       jojaMart: 75,
       travellingCart: 550,
-    }
+    },
   },
   {
     name: "Cauliflower Seeds",
@@ -217,7 +217,7 @@ export const crops: Crop[] = [
       pierres: 80,
       jojaMart: 100,
       travellingCart: 560,
-    }
+    },
   },
   {
     name: "Potato Seeds",
@@ -237,7 +237,7 @@ export const crops: Crop[] = [
       pierres: 50,
       jojaMart: 62,
       travellingCart: 550,
-    }
+    },
   },
   {
     name: "Garlic Seeds",
@@ -249,8 +249,8 @@ export const crops: Crop[] = [
     sources: [Source.PIERRE_YEAR2_PLUS, Source.TRAVELLING_CART],
     price: {
       pierres: 40,
-      travellingCart: 550
-    }
+      travellingCart: 550,
+    },
   },
   {
     name: "Kale Seeds",
@@ -264,7 +264,7 @@ export const crops: Crop[] = [
       pierres: 70,
       jojaMart: 87,
       travellingCart: 502.5,
-    }
+    },
   },
   {
     name: "Rhubarb Seeds",
@@ -276,8 +276,8 @@ export const crops: Crop[] = [
     sources: [Source.OASIS_SHOP, Source.TRAVELLING_CART],
     price: {
       oasisShop: 100,
-      travellingCart: 575
-    }
+      travellingCart: 575,
+    },
   },
   {
     name: "Melon Seeds",
@@ -291,7 +291,7 @@ export const crops: Crop[] = [
       pierres: 80,
       jojaMart: 100,
       travellingCart: 560,
-    }
+    },
   },
   {
     name: "Tomato Seeds",
@@ -311,7 +311,7 @@ export const crops: Crop[] = [
       pierres: 50,
       jojaMart: 62,
       travellingCart: 550,
-    }
+    },
   },
   {
     name: "Blueberry Seeds",
@@ -329,8 +329,8 @@ export const crops: Crop[] = [
     sources: [Source.PIERRE, Source.TRAVELLING_CART],
     price: {
       pierres: 80,
-      travellingCart: 560
-    }
+      travellingCart: 560,
+    },
   },
   {
     name: "Pepper Seeds",
@@ -349,8 +349,8 @@ export const crops: Crop[] = [
     price: {
       pierres: 40,
       jojaMart: 50,
-      travellingCart: 550
-    }
+      travellingCart: 550,
+    },
   },
   {
     name: "Wheat Seeds",
@@ -363,8 +363,8 @@ export const crops: Crop[] = [
     price: {
       pierres: 10,
       jojaMart: 12,
-      travellingCart: 550
-    }
+      travellingCart: 550,
+    },
   },
   {
     name: "Radish Seeds",
@@ -377,8 +377,8 @@ export const crops: Crop[] = [
     price: {
       pierres: 40,
       jojaMart: 50,
-      travellingCart: 550
-    }
+      travellingCart: 550,
+    },
   },
   {
     name: "Red Cabbage Seeds",
@@ -390,8 +390,8 @@ export const crops: Crop[] = [
     sources: [Source.PIERRE_YEAR2_PLUS, Source.TRAVELLING_CART],
     price: {
       pierres: 100,
-      travellingCart: 575
-    }
+      travellingCart: 575,
+    },
   },
   {
     name: "Starfruit Seeds",
@@ -403,8 +403,8 @@ export const crops: Crop[] = [
     sources: [Source.PIERRE, Source.TRAVELLING_CART],
     price: {
       oasisShop: 400,
-      travellingCart: 800
-    }
+      travellingCart: 800,
+    },
   },
   {
     name: "Corn Seeds",
@@ -417,8 +417,8 @@ export const crops: Crop[] = [
     price: {
       pierres: 150,
       jojaMart: 187,
-      travellingCart: 612.5
-    }
+      travellingCart: 612.5,
+    },
   },
   {
     name: "Eggplant Seeds",
@@ -437,8 +437,8 @@ export const crops: Crop[] = [
     price: {
       pierres: 20,
       jojaMart: 25,
-      travellingCart: 550
-    }
+      travellingCart: 550,
+    },
   },
   {
     name: "Artichoke Seeds",
@@ -450,8 +450,8 @@ export const crops: Crop[] = [
     sources: [Source.PIERRE_YEAR2_PLUS, Source.TRAVELLING_CART],
     price: {
       pierres: 30,
-      travellingCart: 550
-    }
+      travellingCart: 550,
+    },
   },
   {
     name: "Pumpkin Seeds",
@@ -464,8 +464,8 @@ export const crops: Crop[] = [
     price: {
       pierres: 100,
       jojaMart: 125,
-      travellingCart: 575
-    }
+      travellingCart: 575,
+    },
   },
   {
     name: "Bok Choy Seeds",
@@ -478,8 +478,8 @@ export const crops: Crop[] = [
     price: {
       pierres: 50,
       jojaMart: 62,
-      travellingCart: 550
-    }
+      travellingCart: 550,
+    },
   },
   {
     name: "Yam Seeds",
@@ -492,8 +492,8 @@ export const crops: Crop[] = [
     price: {
       pierres: 60,
       jojaMart: 75,
-      travellingCart: 550
-    }
+      travellingCart: 550,
+    },
   },
   {
     name: "Cranberry Seeds",
@@ -512,8 +512,8 @@ export const crops: Crop[] = [
     price: {
       pierres: 240,
       jojaMart: 300,
-      travellingCart: 590
-    }
+      travellingCart: 590,
+    },
   },
   {
     name: "Beet Seeds",
@@ -525,8 +525,8 @@ export const crops: Crop[] = [
     sources: [Source.OASIS_SHOP, Source.TRAVELLING_CART],
     price: {
       oasisShop: 20,
-      travellingCart: 550
-    }
+      travellingCart: 550,
+    },
   },
   {
     name: "Strawberry Seeds",
@@ -541,10 +541,10 @@ export const crops: Crop[] = [
       maxHarvestIncreasePerFarmingLevel: 0,
       chanceForExtraCrops: 0.02,
     },
-    sources: [Source.FESTIVALS],
+    sources: [Source.EGG_FESTIVAL],
     price: {
-      festivals: 100
-    }
+      festivals: 100,
+    },
   },
   {
     name: "Cactus Seeds",
@@ -555,7 +555,7 @@ export const crops: Crop[] = [
     sellPrice: 75,
     sources: [Source.OASIS_SHOP],
     price: {
-      oasisShop: 150
-    }
+      oasisShop: 150,
+    },
   },
 ];

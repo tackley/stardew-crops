@@ -1,4 +1,4 @@
-import { PlanEntry, buildPlan } from "@/calc/calculator";
+import { buildPlan } from "@/calc/calculator";
 import { StardewDate } from "@/calc/calendar";
 import { Crop } from "@/calc/model";
 import _ from "lodash";
@@ -9,11 +9,7 @@ export interface CropPlanParams {
   crops: Crop[];
 }
 
-interface Props {
-  params: CropPlanParams;
-}
-
-export function CropPlan({ params }: Props) {
+export function CropPlan(params: CropPlanParams) {
   const plan = useMemo(() => buildPlan(params.crops, params.date), [params]);
   return (
     <div>
