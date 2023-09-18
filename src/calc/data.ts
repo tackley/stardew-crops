@@ -347,7 +347,7 @@ export const cropData: RawCropData[] = [
   {
     name: "Eggplant Seeds",
     maturityTimeDays: 5,
-    regrowTimeDays: -5,
+    regrowTimeDays: 5,
     seasons: [FALL],
     sellPrice: 60,
     extraHarvestChance: {
