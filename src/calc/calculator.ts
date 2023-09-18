@@ -2,27 +2,7 @@ import { StardewDate } from "./calendar";
 import { Crop } from "./crop";
 import * as R from "remeda";
 import { Vendor } from "./model";
-
-export function canIPlant(
-  crop: Crop,
-  dt: StardewDate,
-  vendors: Vendor[]
-): { profit: number; plotFreeAt: StardewDate; buyFrom: Vendor } | undefined {
-  if (!crop.canGrowOn(dt)) return;
-
-  const bestVendorAndPrice = crop.bestVendorFrom(vendors);
-  if (!bestVendorAndPrice) return;
-
-  const maturityDate = dt.addDays(crop.maturityTimeDays);
-  if (!maturityDate || !crop.canGrowOn(maturityDate)) return;
-
-  const profit = crop.sellPrice - bestVendorAndPrice.price;
-  return {
-    profit: profit,
-    plotFreeAt: maturityDate,
-    buyFrom: bestVendorAndPrice.vendor,
-  };
-}
+import { time } from "node:console";
 
 export interface PlanEntry {
   plantAt: StardewDate;
@@ -30,6 +10,59 @@ export interface PlanEntry {
   buyFrom: Vendor;
   crop: Crop;
   profit: number;
+  regrowCount: number;
+}
+
+function howManyTimesCanIGrow(
+  crop: Crop,
+  dt: StardewDate,
+  growDays: number,
+  regrowDays?: number
+): StardewDate[] {
+  if (!crop.canGrowOn(dt)) return [];
+
+  const maturityDate = dt.addDays(growDays);
+  if (!maturityDate || !crop.canGrowOn(maturityDate)) {
+    return [];
+  }
+
+  if (regrowDays) {
+    return [
+      maturityDate,
+      ...howManyTimesCanIGrow(crop, maturityDate, regrowDays, regrowDays),
+    ];
+  }
+
+  return [maturityDate];
+}
+
+export function canIPlant(
+  crop: Crop,
+  dt: StardewDate,
+  vendors: Vendor[]
+): PlanEntry[] {
+  if (!crop.canGrowOn(dt)) return [];
+
+  const bestVendorAndPrice = crop.bestVendorFrom(vendors);
+  if (!bestVendorAndPrice) return [];
+
+  const whenCanIHarvest = howManyTimesCanIGrow(
+    crop,
+    dt,
+    crop.maturityTimeDays,
+    crop.regrowTimeDays
+  );
+
+  const result = whenCanIHarvest.map((harvestAt, idx) => ({
+    profit: crop.sellPrice * (idx + 1) - bestVendorAndPrice.price,
+    plantAt: dt,
+    crop: crop,
+    harvestAt: harvestAt,
+    buyFrom: bestVendorAndPrice.vendor,
+    regrowCount: idx,
+  }));
+
+  return result;
 }
 
 function dbgPlanOutput(plan: PlanEntry[]): string {
@@ -65,12 +98,9 @@ function buildPlanWithCache(
   if (savedPlan) return savedPlan.plan;
 
   // for each crop that we can plant on startDate
-  const potentialCropsToPlant = variables.crops.flatMap((crop) => {
-    const plantable = canIPlant(crop, startDate, variables.vendors);
-
-    if (plantable) return [{ crop, plantable }];
-    else return [];
-  });
+  const potentialCropsToPlant = variables.crops.flatMap((crop) =>
+    canIPlant(crop, startDate, variables.vendors)
+  );
 
   if (potentialCropsToPlant.length === 0) {
     const nextSeason = startDate.nextSeason();
@@ -82,17 +112,10 @@ function buildPlanWithCache(
   }
 
   // otherwise build all the possible plans for those crops, and choose the most profitable
-  const possiblePlans = potentialCropsToPlant.map((p) => {
-    const thisCropPlanEntry: PlanEntry = {
-      crop: p.crop,
-      harvestAt: p.plantable.plotFreeAt,
-      plantAt: startDate,
-      profit: p.plantable.profit,
-      buyFrom: p.plantable.buyFrom,
-    };
+  const possiblePlans = potentialCropsToPlant.map((entry) => {
     const plan = [
-      thisCropPlanEntry,
-      ...buildPlanWithCache(bestPlans, p.plantable.plotFreeAt, variables),
+      entry,
+      ...buildPlanWithCache(bestPlans, entry.harvestAt, variables),
     ];
 
     return {
@@ -101,7 +124,11 @@ function buildPlanWithCache(
     };
   });
 
-  const bestPlan = R.maxBy(possiblePlans, (p) => p.profit) ?? {
+  const bestPlan = R.pipe(
+    possiblePlans,
+    R.sortBy((p) => p.plan.length),
+    R.maxBy((p) => p.profit)
+  ) ?? {
     plan: [],
     profit: 0,
   };

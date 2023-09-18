@@ -21,6 +21,7 @@ export function CropPlan(params: CropPlanParams) {
             <td>Crop</td>
             <td>Buy From</td>
             <td>Plant At</td>
+            <td>Harvests</td>
             <td>Harvest At</td>
             <td className="text-right">Profit</td>
           </tr>
@@ -31,6 +32,7 @@ export function CropPlan(params: CropPlanParams) {
               <td className="p-1">{planEntry.crop.name}</td>
               <td className="p-1">{planEntry.buyFrom.name}</td>
               <td className="p-1">{planEntry.plantAt.toString()}</td>
+              <td className="p-1">{planEntry.regrowCount + 1}</td>
               <td className="p-1">{planEntry.harvestAt.toString()}</td>
               <td className="p-1 text-right">
                 {planEntry.profit.toLocaleString()}
@@ -41,7 +43,7 @@ export function CropPlan(params: CropPlanParams) {
 
         <tfoot>
           <tr>
-            <td colSpan={4}></td>
+            <td colSpan={5}></td>
             <td className="p-1 text-right font-bold">
               {R.sumBy(plan, (p) => p.profit).toLocaleString()}
             </td>
