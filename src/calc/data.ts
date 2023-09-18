@@ -459,4 +459,18 @@ export const cropData: RawCropData[] = [
       oasis: 150,
     },
   },
+  {
+    name: "The Null Crop",
+    maturityTimeDays: 1,
+    regrowTimeDays: 1,
+    seasons: [SPRING, SUMMER, FALL, WINTER],
+    sellPrice: 0,
+    price: {
+      pierre: 0,
+      pierreYear2: 0,
+      eggFestival: 0,
+      joja: 0,
+      travellingCart: 0,
+    },
+  },
 ];

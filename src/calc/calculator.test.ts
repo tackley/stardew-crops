@@ -3,7 +3,6 @@ import { PlanEntry, buildPlan, canIPlant } from "./calculator";
 import { ALL_VENDORS, RawCropData, Vendors, joja } from "./model";
 import { FALL, SPRING, SUMMER, StardewDate, WINTER, svDate } from "./calendar";
 import { ALL_CROPS, Crop } from "./crop";
-import test from "node:test";
 
 it("should be able to go 😈😈😈😈😈 mode", () => {
   const devious: string = "🥹😀🫠😧😵";

@@ -124,7 +124,11 @@ function buildPlanWithCache(
     };
   });
 
-  const bestPlan = R.maxBy(possiblePlans, (p) => p.profit) ?? {
+  const bestPlan = R.pipe(
+    possiblePlans,
+    R.sortBy((p) => p.plan.length),
+    R.maxBy((p) => p.profit)
+  ) ?? {
     plan: [],
     profit: 0,
   };
