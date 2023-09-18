@@ -368,7 +368,7 @@ export const cropData: RawCropData[] = [
     seasons: [FALL],
     sellPrice: 160,
     price: {
-      pierre: 30,
+      pierreYear2: 30,
       travellingCart: 550,
     },
   },
