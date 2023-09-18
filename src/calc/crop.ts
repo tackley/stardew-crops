@@ -20,6 +20,10 @@ export class Crop {
     return this.data.maturityTimeDays;
   }
 
+  get regrowTimeDays() {
+    return this.data.regrowTimeDays;
+  }
+
   canGrowOn(dt: StardewDate): boolean {
     return this.data.seasons.includes(dt.season);
   }

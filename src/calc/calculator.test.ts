@@ -3,19 +3,13 @@ import { PlanEntry, buildPlan, canIPlant } from "./calculator";
 import { ALL_VENDORS, RawCropData, Vendors, joja } from "./model";
 import { FALL, SPRING, SUMMER, StardewDate, WINTER, svDate } from "./calendar";
 import { ALL_CROPS, Crop } from "./crop";
+import test from "node:test";
 
 it("should be able to go 😈😈😈😈😈 mode", () => {
   const devious: string = "🥹😀🫠😧😵";
   expect(devious).toBe("🥹😀🫠😧😵");
 });
 
-/*
-The question I want to ask is:
-
-can I plant the crop on this day?
-if so, when will the tile become free, and what will the profit be?
-
-*/
 describe("can I plant it?", () => {
   it("should say no if the crop isn't in season", () => {
     const testCrop: RawCropData = {
@@ -29,7 +23,7 @@ describe("can I plant it?", () => {
     };
     expect(
       canIPlant(Crop.for(testCrop), new StardewDate(FALL, 1), ALL_VENDORS)
-    ).toBeUndefined();
+    ).toEqual([]);
   });
 
   it("should say no if the crop isn't sold by the filtered vendor", () => {
@@ -44,7 +38,7 @@ describe("can I plant it?", () => {
     };
     expect(
       canIPlant(Crop.for(testCrop), new StardewDate(SUMMER, 1), [Vendors.oasis])
-    ).toBeUndefined();
+    ).toEqual([]);
   });
 
   it("should say yes if the crop is in season", () => {
@@ -59,10 +53,12 @@ describe("can I plant it?", () => {
     };
     expect(
       canIPlant(Crop.for(testCrop), new StardewDate(SPRING, 1), ALL_VENDORS)
-    ).toMatchObject({
-      profit: 10,
-      plotFreeAt: new StardewDate(SPRING, 5),
-    });
+    ).toMatchObject([
+      {
+        profit: 10,
+        harvestAt: new StardewDate(SPRING, 5),
+      },
+    ]);
   });
 
   it("should say no if the crop doesn't have time to grow", () => {
@@ -77,13 +73,48 @@ describe("can I plant it?", () => {
     };
     expect(
       canIPlant(Crop.for(testCrop), new StardewDate(SUMMER, 27), ALL_VENDORS)
-    ).toBeUndefined();
+    ).toHaveLength(0);
+  });
+
+  it("should provide all potential options for regrowing crops", () => {
+    const testCrop = Crop.for({
+      name: "test crop",
+      maturityTimeDays: 10,
+      regrowTimeDays: 5,
+      sellPrice: 20,
+      seasons: [SPRING],
+      price: {
+        joja: 10,
+      },
+    });
+    expect(
+      canIPlant(testCrop, new StardewDate(SPRING, 1), ALL_VENDORS)
+    ).toMatchObject([
+      {
+        profit: 10,
+        plantAt: svDate(SPRING, 1),
+        harvestAt: new StardewDate(SPRING, 11),
+        buyFrom: joja,
+        crop: testCrop,
+      },
+      {
+        profit: 30,
+        harvestAt: new StardewDate(SPRING, 16),
+        buyFrom: joja,
+      },
+      {
+        profit: 50,
+        harvestAt: new StardewDate(SPRING, 21),
+        buyFrom: joja,
+      },
+      {
+        profit: 70,
+        harvestAt: new StardewDate(SPRING, 26),
+        buyFrom: joja,
+      },
+    ]);
   });
 });
-
-const defaultVariables = {
-  vendors: ALL_VENDORS,
-};
 
 describe("optimal sequence calculator", () => {
   it("should work in a very simple case", () => {
@@ -109,6 +140,7 @@ describe("optimal sequence calculator", () => {
         harvestAt: svDate(SPRING, 14),
         profit: 130,
         buyFrom: joja,
+        regrowCount: 0,
       },
       {
         crop: testCrop1,
@@ -116,6 +148,7 @@ describe("optimal sequence calculator", () => {
         harvestAt: svDate(SPRING, 27),
         profit: 130,
         buyFrom: joja,
+        regrowCount: 0,
       },
     ]);
   });
@@ -143,6 +176,7 @@ describe("optimal sequence calculator", () => {
         harvestAt: svDate(WINTER, 11),
         profit: 100,
         buyFrom: joja,
+        regrowCount: 0,
       },
       {
         crop: testCrop1,
@@ -150,6 +184,36 @@ describe("optimal sequence calculator", () => {
         harvestAt: svDate(WINTER, 21),
         profit: 100,
         buyFrom: joja,
+        regrowCount: 0,
+      },
+    ]);
+  });
+
+  it("should work for regrowing crops", () => {
+    const testCrop1 = Crop.for({
+      name: "regrowing spring crop",
+      maturityTimeDays: 13,
+      regrowTimeDays: 10,
+      sellPrice: 180,
+      seasons: [SPRING],
+      price: {
+        joja: 50,
+      },
+    });
+
+    const plan = buildPlan(svDate(SPRING, 1), {
+      crops: [testCrop1],
+      vendors: ALL_VENDORS,
+    });
+
+    expect(plan).toMatchObject<PlanEntry[]>([
+      {
+        crop: testCrop1,
+        plantAt: svDate(SPRING, 1),
+        harvestAt: svDate(SPRING, 24),
+        profit: 310,
+        buyFrom: joja,
+        regrowCount: 1,
       },
     ]);
   });
@@ -204,6 +268,7 @@ describe("optimal sequence calculator", () => {
         harvestAt: svDate(SPRING, 14),
         profit: 130,
         buyFrom: joja,
+        regrowCount: 0,
       },
       {
         crop: testCrop1,
@@ -211,6 +276,7 @@ describe("optimal sequence calculator", () => {
         harvestAt: svDate(SPRING, 27),
         profit: 130,
         buyFrom: joja,
+        regrowCount: 0,
       },
       {
         crop: testCrop4,
@@ -218,6 +284,7 @@ describe("optimal sequence calculator", () => {
         harvestAt: svDate(SUMMER, 6),
         profit: 50,
         buyFrom: joja,
+        regrowCount: 0,
       },
       {
         crop: testCrop4,
@@ -225,6 +292,7 @@ describe("optimal sequence calculator", () => {
         harvestAt: svDate(SUMMER, 13),
         profit: 50,
         buyFrom: joja,
+        regrowCount: 0,
       },
       {
         crop: testCrop4,
@@ -232,6 +300,7 @@ describe("optimal sequence calculator", () => {
         harvestAt: svDate(SUMMER, 20),
         profit: 50,
         buyFrom: joja,
+        regrowCount: 0,
       },
       {
         crop: testCrop4,
@@ -239,6 +308,7 @@ describe("optimal sequence calculator", () => {
         harvestAt: svDate(SUMMER, 27),
         profit: 50,
         buyFrom: joja,
+        regrowCount: 0,
       },
       {
         crop: testCrop3,
@@ -246,6 +316,7 @@ describe("optimal sequence calculator", () => {
         harvestAt: svDate(FALL, 14),
         profit: 130,
         buyFrom: joja,
+        regrowCount: 0,
       },
       {
         crop: testCrop3,
@@ -253,6 +324,7 @@ describe("optimal sequence calculator", () => {
         harvestAt: svDate(FALL, 27),
         profit: 130,
         buyFrom: joja,
+        regrowCount: 0,
       },
     ]);
   });
