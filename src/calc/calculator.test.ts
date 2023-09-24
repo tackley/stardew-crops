@@ -2,7 +2,7 @@ import { it, expect, describe } from "vitest";
 import { PlanEntry, buildPlan, canIPlant } from "./calculator";
 import { ALL_VENDORS, RawCropData, Vendors, joja } from "./model";
 import { FALL, SPRING, SUMMER, StardewDate, WINTER, svDate } from "./calendar";
-import { ALL_CROPS, Crop } from "./crop";
+import { Crop } from "./crop";
 
 it("should be able to go 😈😈😈😈😈 mode", () => {
   const devious: string = "🥹😀🫠😧😵";
@@ -110,6 +110,74 @@ describe("can I plant it?", () => {
         profit: 70,
         harvestAt: new StardewDate(SPRING, 26),
         buyFrom: joja,
+      },
+    ]);
+  });
+
+  it("should correctly calculate profit for crops that have multiple harvests", () => {
+    const blueberryLike = Crop.for({
+      name: "blueberry-like",
+      maturityTimeDays: 4,
+      sellPrice: 100,
+      seasons: [SPRING],
+      price: {
+        joja: 50,
+      },
+      extraHarvestChance: {
+        minHarvest: 3,
+        maxHarvest: 3,
+        maxHarvestIncreasePerFarmingLevel: 0,
+        chanceForExtraCrops: 0,
+      },
+    });
+
+    expect(blueberryLike.averageCropsPerHarvest).toBe(3);
+
+    // we should get 3 after 4 days, so the profit is (100*3)-50 = 250
+    expect(
+      canIPlant(blueberryLike, new StardewDate(SPRING, 1), ALL_VENDORS)
+    ).toMatchObject([
+      {
+        crop: blueberryLike,
+        profit: 250,
+        plantAt: svDate(SPRING, 1),
+        harvestAt: new StardewDate(SPRING, 5),
+      },
+    ]);
+
+    /*
+    },
+*/
+  });
+
+  it("should correctly calculate profit for crops that have a chance of extra harvest", () => {
+    const potatoLike = Crop.for({
+      name: "potato-like",
+      maturityTimeDays: 4,
+      sellPrice: 100,
+      seasons: [SPRING],
+      price: {
+        joja: 50,
+      },
+      extraHarvestChance: {
+        minHarvest: 1,
+        maxHarvest: 1,
+        maxHarvestIncreasePerFarmingLevel: 0,
+        chanceForExtraCrops: 0.2,
+      },
+    });
+
+    expect(potatoLike.averageCropsPerHarvest).toBe(1.2);
+
+    // we should get 1.2 after 4 days, so the profit is (100*1.2)-50 = 70
+    expect(
+      canIPlant(potatoLike, new StardewDate(SPRING, 1), ALL_VENDORS)
+    ).toMatchObject([
+      {
+        crop: potatoLike,
+        profit: 70,
+        plantAt: svDate(SPRING, 1),
+        harvestAt: new StardewDate(SPRING, 5),
       },
     ]);
   });
@@ -328,13 +396,3 @@ describe("optimal sequence calculator", () => {
     ]);
   });
 });
-
-it("should do something amazing with the real crops", () => {
-  const result = buildPlan(svDate(SPRING, 1), {
-    crops: ALL_CROPS,
-    vendors: ALL_VENDORS,
-  });
-});
-
-it.todo("should be able to get properties of crops");
-it.todo("should be able to calculate harvests for regrowing crops");

@@ -24,6 +24,18 @@ export class Crop {
     return this.data.regrowTimeDays;
   }
 
+  get averageCropsPerHarvest(): number {
+    const h = this.data.extraHarvestChance;
+
+    if (!h) return 1;
+
+    const averageHarvest = (h.minHarvest + h.maxHarvest) / 2;
+
+    const actualHarvest = averageHarvest * (1 + h.chanceForExtraCrops);
+
+    return actualHarvest;
+  }
+
   canGrowOn(dt: StardewDate): boolean {
     return this.data.seasons.includes(dt.season);
   }
