@@ -1,6 +1,7 @@
 import { AllSeasons, SPRING, StardewDate } from "@/calc/calendar";
 import { Dispatch } from "react";
 import * as R from "remeda";
+import { SelectionCaption } from "./SelectionCaption";
 
 interface Props {
   date: StardewDate;
@@ -12,7 +13,7 @@ const DAYS = R.range(1, 28);
 export function SelectDate({ date, onChange }: Props) {
   return (
     <div className="flex items-center">
-      <span className="font-semibold">Day</span>
+      <SelectionCaption>Day</SelectionCaption>
       <select
         onChange={(e) => {
           const selectedSeason = AllSeasons[Number(e.target.value)];
