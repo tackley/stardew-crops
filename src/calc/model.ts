@@ -10,8 +10,8 @@ export const Vendors = {
   pierreYear2: { name: "General Store (Yr2+)" },
   joja: { name: "JojaMart" },
   oasis: { name: "Oasis Shop" },
-  eggFestival: { name: "Egg Festival" },
   travellingCart: { name: "Travelling Cart" },
+  eggFestival: { name: "Egg Festival" },
 } satisfies Record<string, Vendor>;
 
 export const ALL_VENDORS = R.values(Vendors);
@@ -20,6 +20,7 @@ export type VendorName = keyof typeof Vendors;
 
 // shortcuts!
 export const pierre = Vendors.pierre;
+export const pierreYear2 = Vendors.pierreYear2;
 export const joja = Vendors.joja;
 export const oasis = Vendors.oasis;
 export const eggFestival = Vendors.eggFestival;
