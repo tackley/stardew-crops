@@ -30,7 +30,7 @@ export default function Home() {
   return (
     <main className="min-h-screen p-2 container mx-auto my-4">
       <h1 className="text-3xl font-bold">
-        Stardew Valley Best Crop Calculator
+        Stardew Valley Semi-OK Crop Calculator
       </h1>
 
       <div className="flex flex-row gap-2 mt-2">

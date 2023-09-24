@@ -54,7 +54,9 @@ export function canIPlant(
   );
 
   const result = whenCanIHarvest.map((harvestAt, idx) => ({
-    profit: crop.sellPrice * (idx + 1) - bestVendorAndPrice.price,
+    profit:
+      crop.sellPrice * (idx + 1) * crop.averageCropsPerHarvest -
+      bestVendorAndPrice.price,
     plantAt: dt,
     crop: crop,
     harvestAt: harvestAt,
